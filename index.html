@@ -1131,10 +1131,10 @@ function renderClients(){
     return `<div class="card cl ${cls}"><div class="t">${esc(nm)}</div><div class="p">${obj?fmt(liv/obj*100,1)+' %':'—'}</div>
       <div class="bar"><b class="${r>=1?'full':''}" style="width:${r*100}%"></b></div>
       <div class="s"><span><b>${fmt(liv,0)}</b> / ${fmt(obj,0)} t</span><span>${route?'<b>'+fmt(route,0)+' t</b> '+t('onRoute')+' · ':''}${t('remain')} <b>${fmt(Math.max(0,obj-liv),0)} t</b></span></div>${paceHtml(c)}</div>`; };
-  const sorted = st.sort((a,b)=>n(b.obj)-n(a.obj)), lim = (isMob() && !state.clAll) ? 3 : sorted.length;
+  const sorted = st.sort((a,b)=>n(b.obj)-n(a.obj)), lim = sorted.length;
   $('#clients').innerHTML = (sorted.length>1 ? card(t('totalContracts'), tLiv, tObj, tR, 'total') : '') +
     sorted.slice(0,lim).map(c => card(c.nom, c.liv, n(c.obj), c.route, '', c)).join('') +
-    (sorted.length>3 && isMob() ? `<button class="btn" id="cl-more" type="button">${state.clAll?t('less'):t('seeAll', sorted.length)}</button>` : '');
+    '';
 }
 
 /* ================= settings editors ================= */
@@ -1266,8 +1266,7 @@ $('#save-prix').onclick = async () => {
 async function saveConfig(c){ try { await store.saveConfig(c); } catch(err){ toast(errMsg(err)); } }
 
 document.querySelectorAll('.acc').forEach(d => {
-  if (!isMob()) d.open = true; else if (d.dataset.acc === 'cl') d.open = true;
-  d.addEventListener('toggle', () => { if (d.open && isMob()) { document.querySelectorAll('.acc').forEach(o => { if (o !== d) o.open = false; }); setTimeout(() => d.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'}), 30); } });
+  d.open = true;
 });
 /* ================= report ================= */
 function repData(){
