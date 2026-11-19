@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" translate="no">
 <head>
 <meta charset="utf-8">
+<meta name="google" content="notranslate">
 <meta name="theme-color" content="#141C1B">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Registre de Transport</title>
@@ -910,6 +911,7 @@ const isMob = () => matchMedia('(max-width:759px)').matches;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const n = v => { const x = parseFloat(v); return isFinite(x) ? x : 0; };
 const DAY = 864e5;
+const DEFAULT_CLIENTS = [['GCK',25000],['Mikas',10000],['TFM',40000],['KCC',30000],['Kamoa',10000],['Commus',5000],['Carrilu',20000],['Chemaf',15000],['Lualaba Chaux',10000],['TTC',5000],['CGM',7000]].map(([nom,obj])=>({nom,obj}));
 const ICON = {
   alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0zM12 9v4M12 17h.01"/></svg>',
   clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
@@ -1714,6 +1716,7 @@ async function init(){
   if (!cl) {
     db = null; try { const o = JSON.parse(LSget(LS)||'{}'); voyages = o.voyages||[]; clients = o.clients||[]; if(o.config) config = normConfig(o.config); } catch {}
     sim = null;
+    if (!clients.length) { clients = DEFAULT_CLIENTS.map(c=>({...c, prix:0, fin:''})); localPersist(); }
     setSync('off','sLocal'); render(); return;
   }
   db = cl;
