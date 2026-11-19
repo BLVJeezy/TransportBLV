@@ -506,6 +506,51 @@ nav.tabs button.add{background:linear-gradient(180deg,#E8945C,#D4763C);color:#1A
 .num{font-feature-settings:"tnum" 1,"zero" 1}
 @media(prefers-reduced-transparency:reduce){nav.tabs{background:#1C2725}header.top{background:#141C1B}}
 @media(prefers-contrast:more){:root{--ink2:#C3D2CC;--line:rgba(220,240,232,.3)}}
+
+/* ---- v8: settings accordion (mobile-first) ---- */
+.accs{display:grid;gap:10px;margin-top:16px}
+.acc{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008)),var(--card);box-shadow:var(--sh);overflow:hidden}
+.acc{scroll-margin-top:72px}
+.acc[open]{border-color:rgba(92,201,169,.22)}
+.acc summary{list-style:none;display:grid;grid-template-columns:40px 1fr 20px;gap:12px;align-items:center;padding:12px 14px;min-height:64px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:active{background:rgba(255,255,255,.03)}
+.acc-ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--brand-t);color:var(--brand-2)}
+.acc-ic svg{width:20px;height:20px}
+.acc-t{min-width:0}
+.acc-t b{display:block;font:700 16px/1.2 var(--disp);letter-spacing:-.01em;color:var(--ink)}
+.acc-t small{display:block;font-size:12.5px;color:var(--ink2);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acc-ch{width:9px;height:9px;border-right:2px solid var(--ink2);border-bottom:2px solid var(--ink2);transform:rotate(45deg) translate(-2px,-2px);transition:transform .25s cubic-bezier(.2,.9,.25,1);justify-self:center}
+.acc[open] .acc-ch{transform:rotate(-135deg) translate(-2px,-2px)}
+.acc-b{padding:2px 14px 14px;animation:in .22s cubic-bezier(.2,.8,.2,1)}
+.acc-b .card{box-shadow:none;background:rgba(0,0,0,.12)}
+.act{display:flex;gap:10px;align-items:end;margin-top:12px;flex-wrap:wrap}
+.act label.f{width:120px}
+.act .btn{flex:1;min-height:48px}
+.act.two-b{display:grid;grid-template-columns:1fr 1fr}
+.prices{gap:8px}
+.prow{grid-template-columns:1fr 1fr;gap:8px 10px;padding:12px}
+.prow .nm{grid-column:1/-1;min-width:0}
+.al-grid{padding:12px}
+.c-f{display:flex;flex-direction:column;gap:3px;min-width:0}
+.c-f small{font-size:11px;color:var(--ink2);font-weight:500}
+.srow{padding:10px}
+.srow.head{display:none}
+.srow.cl4{grid-template-columns:1fr 1fr 1fr 1.2fr 40px}
+.srow.tr3{grid-template-columns:1.6fr 1fr 40px;align-items:end}
+@media(min-width:760px){.prow{grid-template-columns:auto 1fr 1fr;align-items:end}.prow .nm{grid-column:auto;align-self:center;min-width:110px}.act .btn{flex:none}.act.two-b{display:flex}.acc-b{padding:4px 18px 18px}}
+@media(max-width:759px){
+  .srow.cl4{grid-template-columns:1fr 1fr 44px;gap:8px;padding:12px}
+  .srow.cl4 .c-f{grid-column:auto}
+  .srow.cl4 .c-f.c-n{grid-column:1/3;grid-row:1}
+  .srow.cl4 .c-x{grid-column:3;grid-row:1;align-self:end}
+  .srow.cl4 .c-f.c-date{grid-column:1/3}
+  .srow.tr3{grid-template-columns:1fr 110px 44px}
+  .sim-row{grid-template-columns:1fr 92px;gap:6px 10px}
+  .sim-row>div:nth-child(2){grid-column:1/-1;grid-row:2}
+  .sim-row .o{grid-row:1;grid-column:2}
+  .al-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -593,53 +638,66 @@ nav.tabs button.add{background:linear-gradient(180deg,#E8945C,#D4763C);color:#1A
   <p class="eyebrow" style="margin-top:14px" data-t="eyePrix"></p>
   <h1 data-t="prixH"></h1>
   <p class="lede" data-t="prixLede"></p>
-  <div class="sec">
-    <div class="sec-h"><h2 data-t="perTon"></h2></div>
-    <div class="prices" id="prices"></div>
-    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:end">
-      <label class="f" style="width:140px"><span data-t="currency"></span><input id="cur" maxlength="6"></label>
-      <button class="btn dark" id="save-prix" data-t="savePrix"></button>
-    </div>
-  </div>
-  <div class="sec">
-    <div class="sec-h"><h2 data-t="clVolH"></h2><p id="cl-tot"></p></div>
-    <p class="hint" style="margin:-4px 0 10px" data-t="clHint"></p>
-    <div class="card" id="cl-edit"></div>
-    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
-      <button class="btn" id="cl-add" type="button" data-t="clAdd"></button>
-      <button class="btn dark" id="cl-save" type="button" data-t="clSave"></button>
-    </div>
-  </div>
-  <div class="sec">
-    <div class="sec-h"><h2 data-t="trH"></h2></div>
-    <p class="hint" style="margin:-4px 0 10px" data-t="trHint"></p>
-    <div class="card" id="tr-edit"></div>
-    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
-      <button class="btn" id="tr-add" type="button" data-t="trAdd"></button>
-      <button class="btn dark" id="tr-save" type="button" data-t="trSave"></button>
-    </div>
-  </div>
-  <div class="sec">
-    <div class="sec-h"><h2 data-t="alH"></h2></div>
-    <div class="card al-grid">
-      <label class="f"><span data-t="alLoss"></span><input id="al-loss" type="number" min="0" step="0.1" inputmode="decimal"></label>
-      <label class="f"><span data-t="alLate"></span><input id="al-late" type="number" min="0" step="0.5" inputmode="decimal"></label>
-      <div class="full" style="grid-column:1/-1"><button class="btn dark" id="al-save" data-t="alSave"></button></div>
-    </div>
-  </div>
-  <div class="sec">
-    <div class="sec-h"><h2 data-t="simH"></h2><p data-t="simSub"></p></div>
-    <div class="card sim" id="sim"></div>
-  </div>
-  <div class="sec">
-    <div class="sec-h"><h2 data-t="drvH"></h2></div>
-    <div class="card" style="padding:16px">
-      <p class="lede" style="font-size:14px" data-t="drvLede"></p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-        <button class="btn primary" id="drv-open" data-t="drvOpen"></button>
+  <div class="accs">
+  <details class="acc" data-acc="prix">
+    <summary><span class="acc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 01-2.8 0L3 13V3h10l7.6 7.6a2 2 0 010 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span><span class="acc-t"><b data-t="perTon"></b><small id="m-prix"></small></span><span class="acc-ch" aria-hidden="true"></span></summary>
+    <div class="acc-b">
+      <div class="prices" id="prices"></div>
+      <div class="act">
+        <label class="f"><span data-t="currency"></span><input id="cur" maxlength="6"></label>
+        <button class="btn dark" id="save-prix" data-t="savePrix"></button>
       </div>
-      <p class="hint" data-t="drvNote"></p>
     </div>
+  </details>
+  <details class="acc" data-acc="cl">
+    <summary><span class="acc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg></span><span class="acc-t"><b data-t="clVolH"></b><small id="m-cl"></small></span><span class="acc-ch" aria-hidden="true"></span></summary>
+    <div class="acc-b">
+      <p class="hint" style="margin:0 0 10px" data-t="clHint"></p>
+      <div class="card" id="cl-edit"></div>
+      <div class="act two-b">
+        <button class="btn" id="cl-add" type="button" data-t="clAdd"></button>
+        <button class="btn dark" id="cl-save" type="button" data-t="clSave"></button>
+      </div>
+    </div>
+  </details>
+  <details class="acc" data-acc="tr">
+    <summary><span class="acc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V6h11v10M14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span><span class="acc-t"><b data-t="trH"></b><small id="m-tr"></small></span><span class="acc-ch" aria-hidden="true"></span></summary>
+    <div class="acc-b">
+      <p class="hint" style="margin:0 0 10px" data-t="trHint"></p>
+      <div class="card" id="tr-edit"></div>
+      <div class="act two-b">
+        <button class="btn" id="tr-add" type="button" data-t="trAdd"></button>
+        <button class="btn dark" id="tr-save" type="button" data-t="trSave"></button>
+      </div>
+    </div>
+  </details>
+  <details class="acc" data-acc="al">
+    <summary><span class="acc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg></span><span class="acc-t"><b data-t="alH"></b><small id="m-al"></small></span><span class="acc-ch" aria-hidden="true"></span></summary>
+    <div class="acc-b">
+      <div class="card al-grid">
+        <label class="f"><span data-t="alLoss"></span><input id="al-loss" type="number" min="0" step="0.1" inputmode="decimal"></label>
+        <label class="f"><span data-t="alLate"></span><input id="al-late" type="number" min="0" step="0.5" inputmode="decimal"></label>
+      </div>
+      <div class="act"><button class="btn dark" id="al-save" data-t="alSave"></button></div>
+    </div>
+  </details>
+  <details class="acc" data-acc="sim">
+    <summary><span class="acc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></span><span class="acc-t"><b data-t="simH"></b><small id="m-sim"></small></span><span class="acc-ch" aria-hidden="true"></span></summary>
+    <div class="acc-b">
+      <p class="hint" style="margin:0 0 10px" data-t="simSub"></p>
+      <div class="card sim" id="sim"></div>
+    </div>
+  </details>
+  <details class="acc" data-acc="drv">
+    <summary><span class="acc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span><span class="acc-t"><b data-t="drvH"></b><small id="m-drv"></small></span><span class="acc-ch" aria-hidden="true"></span></summary>
+    <div class="acc-b">
+      <div class="card" style="padding:16px">
+        <p class="lede" style="font-size:14px" data-t="drvLede"></p>
+        <div class="act"><button class="btn primary" id="drv-open" data-t="drvOpen"></button></div>
+        <p class="hint" data-t="drvNote"></p>
+      </div>
+    </div>
+  </details>
   </div>
 </section>
 
@@ -1083,19 +1141,19 @@ function renderClients(){
 function renderClEdit(){
   if (!clDraft) clDraft = clients.map(c=>({...c}));
   $('#cl-edit').innerHTML = clDraft.length ? `<div class="srow cl4 head"><span>${t('clName')}</span><span>${t('clVol')}</span><span>${t('clPrice')}</span><span>${t('clEnd')}</span><span></span></div>` +
-    clDraft.map((c,i)=>`<div class="srow cl4"><input class="c-n" data-cl="nom" data-i="${i}" value="${esc(c.nom)}" placeholder="${esc(t('clNamePh'))}" aria-label="${esc(t('clName'))}">
-      <input data-cl="obj" data-i="${i}" type="number" min="0" step="1" inputmode="numeric" value="${c.obj||''}" placeholder="${esc(t('clVol'))}" aria-label="${esc(t('clVol'))}">
-      <input data-cl="prix" data-i="${i}" type="number" min="0" step="0.01" inputmode="decimal" value="${c.prix||''}" placeholder="${esc(t('clPrice'))}" aria-label="${esc(t('clPrice'))}">
-      <label class="c-f"><small>${t('clEnd')}</small><input data-cl="fin" data-i="${i}" type="date" value="${esc(c.fin||'')}" aria-label="${esc(t('clEnd'))}"></label>
+    clDraft.map((c,i)=>`<div class="srow cl4"><label class="c-f c-n"><small>${t('clName')}</small><input data-cl="nom" data-i="${i}" value="${esc(c.nom)}" placeholder="${esc(t('clNamePh'))}"></label>
+      <label class="c-f"><small>${t('clVol')}</small><input data-cl="obj" data-i="${i}" type="number" min="0" step="1" inputmode="numeric" value="${c.obj||''}" placeholder="0"></label>
+      <label class="c-f"><small>${t('clPrice')}</small><input data-cl="prix" data-i="${i}" type="number" min="0" step="0.01" inputmode="decimal" value="${c.prix||''}" placeholder="${esc(t('mktT'))}"></label>
+      <label class="c-f c-date"><small>${t('clEnd')}</small><input data-cl="fin" data-i="${i}" type="date" value="${esc(c.fin||'')}"></label>
       <button type="button" class="x c-x" data-cx="${i}" aria-label="${esc(t('del'))}">×</button></div>`).join('')
     : `<div class="empty">${t('clNone')}</div>`;
   clTot();
 }
-const clTot = () => { $('#cl-tot').textContent = t('total') + ' ' + fmt((clDraft||[]).reduce((a,c)=>a+n(c.obj),0)) + ' t'; };
+const clTot = () => { const el = $('#cl-tot'); if (el) el.textContent = t('total') + ' ' + fmt((clDraft||[]).reduce((a,c)=>a+n(c.obj),0)) + ' t'; };
 function renderTrEdit(){
   if (!trDraft) { const names = new Set([...Object.keys(config.tarifs||{}), ...voyages.map(v=>(v.transporteur||'').trim()).filter(Boolean)]); trDraft = [...names].sort().map(k=>({nom:k, rate:config.tarifs?.[k]||''})); }
   $('#tr-edit').innerHTML = trDraft.length ? `<div class="srow tr3 head"><span>${t('trName')}</span><span>${t('trRate')}</span><span></span></div>` +
-    trDraft.map((x,i)=>`<div class="srow tr3"><input data-tr="nom" data-i="${i}" value="${esc(x.nom)}" aria-label="${esc(t('trName'))}"><input data-tr="rate" data-i="${i}" type="number" min="0" step="0.01" inputmode="decimal" value="${x.rate||''}" placeholder="0" aria-label="${esc(t('trRate'))}"><button type="button" class="x" data-tx="${i}" aria-label="${esc(t('del'))}">×</button></div>`).join('')
+    trDraft.map((x,i)=>`<div class="srow tr3"><label class="c-f"><small>${t('trName')}</small><input data-tr="nom" data-i="${i}" value="${esc(x.nom)}"></label><label class="c-f"><small>${t('trRate')}</small><input data-tr="rate" data-i="${i}" type="number" min="0" step="0.01" inputmode="decimal" value="${x.rate||''}" placeholder="0"></label><button type="button" class="x" data-tx="${i}" aria-label="${esc(t('del'))}">×</button></div>`).join('')
     : `<div class="empty">${t('trNone')}</div>`;
 }
 document.addEventListener('input', e => {
@@ -1165,8 +1223,20 @@ function renderPrix(){
   if (document.activeElement?.id !== 'al-loss') $('#al-loss').value = config.alerts?.loss ?? 2;
   if (document.activeElement?.id !== 'al-late') $('#al-late').value = config.alerts?.late ?? 2;
   renderSim();
+  renderAccMeta();
   if (!document.activeElement?.closest?.('#cl-edit')) { clDraft = null; renderClEdit(); }
   if (!document.activeElement?.closest?.('#tr-edit')) { trDraft = null; renderTrEdit(); }
+}
+function renderAccMeta(){
+  const set = (k, v) => { const el = $('#m-'+k); if (el) el.textContent = v; };
+  set('prix', (config.cur||'USD') + ' · ' + PRODS.map(p => `${pn(p.k)} ${fmt(n(config.achat?.[p.k]),0)}→${fmt(n(config.marche?.[p.k]),0)}`).join(' · '));
+  const nP = clients.filter(c=>n(c.prix)).length, nF = clients.filter(c=>c.fin).length;
+  set('cl', `${t('nClients', clients.length)} · ${fmt(clients.reduce((a,c)=>a+n(c.obj),0))} t · ${t('clPrice')} ${nP}/${clients.length} · ${t('clEnd')} ${nF}/${clients.length}`);
+  const tr = Object.keys(config.tarifs||{});
+  set('tr', tr.length ? tr.map(k=>`${k} ${fmt(n(config.tarifs[k]),2)}`).join(' · ') : t('trNone'));
+  set('al', `${t('thLoss')} ${fmt(n(config.alerts?.loss ?? 2),1)} % · ${fmt(n(config.alerts?.late ?? 2),1)} h`);
+  const done = real().filter(v=>v.hArr); set('sim', `${t('thMarge')} ${money(done.reduce((s,v)=>s+(calc(v).marge||0),0))}`);
+  set('drv', t('drvDep') + ' · ' + t('drvArr') + ' · ' + t('photosH'));
 }
 function renderSim(){
   if(!sim) sim = {...config.marche};
@@ -1195,6 +1265,10 @@ $('#save-prix').onclick = async () => {
 };
 async function saveConfig(c){ try { await store.saveConfig(c); } catch(err){ toast(errMsg(err)); } }
 
+document.querySelectorAll('.acc').forEach(d => {
+  if (!isMob()) d.open = true; else if (d.dataset.acc === 'cl') d.open = true;
+  d.addEventListener('toggle', () => { if (d.open && isMob()) { document.querySelectorAll('.acc').forEach(o => { if (o !== d) o.open = false; }); setTimeout(() => d.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'}), 30); } });
+});
 /* ================= report ================= */
 function repData(){
   const m = $('#rep-m').value || new Date().toISOString().slice(0,7), cl = $('#rep-c').value;
@@ -1592,7 +1666,7 @@ function applyLocal(op){
   if (op.type==='set' && op.path.startsWith('voyages/')) { const i = voyages.findIndex(v=>v.id===op.data.id); i>=0 ? voyages[i]=op.data : voyages.push(op.data); }
   if (op.type==='del' && op.path.startsWith('voyages/')) voyages = voyages.filter(v=>'voyages/'+v.id !== op.path);
   if (op.type==='set' && op.path==='config/clients') clients = op.data.list;
-  if (op.type==='set' && op.path==='config/prix') config = {...config, ...op.data};
+  if (op.type==='set' && op.path==='config/prix') { config = {...config, ...op.data}; sim = null; }
 }
 async function dbWrite(op){
   if (!db) { applyLocal(op); localPersist(); render(); return 'ok'; }
@@ -1624,7 +1698,7 @@ window.addEventListener('offline', () => setSync('off','sOff'));
 setInterval(flush, 20000);
 function overlayOutbox(){ outbox.forEach(op => { if (op.type!=='photo') applyLocal(op); }); }
 let cacheT; function cacheSave(){ if (!db) return; clearTimeout(cacheT); cacheT = setTimeout(() => LSset(CACHE, JSON.stringify({voyages, clients, config})), 800); }
-function cacheLoad(){ try { const o = JSON.parse(LSget(CACHE) || 'null'); if (o) { voyages = o.voyages||[]; clients = o.clients||[]; config = {...config, ...o.config}; } } catch {} }
+function cacheLoad(){ try { const o = JSON.parse(LSget(CACHE) || 'null'); if (o) { voyages = o.voyages||[]; clients = o.clients||[]; config = {...config, ...o.config}; sim = null; } } catch {} }
 function localPersist(){ LSset(LS, JSON.stringify({voyages, config, clients})); }
 const store = {
   saveVoyage: d => dbWrite({type:'set', path:'voyages/'+d.id, data:d}),
@@ -1640,6 +1714,7 @@ async function init(){
   try { downloads = window.claude ? await window.claude.use('downloads') : null; } catch { downloads = null; }
   if (!cl) {
     db = null; try { const o = JSON.parse(LSget(LS)||'{}'); voyages = o.voyages||[]; clients = o.clients||[]; if(o.config) config = normConfig(o.config); } catch {}
+    sim = null;
     setSync('off','sLocal'); render(); return;
   }
   db = cl;
