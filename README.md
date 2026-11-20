@@ -1,6 +1,6 @@
 # TransportBLV — Registre de Transport
 
-Application mobile-first pour l'enregistrement et le dispatching des camions (charbon, sable, chips, terre rouge) vers les clients miniers.
+Application mobile-first pour l'enregistrement et le dispatching des camions (charbon, sable, gypse, terre rouge) vers les clients miniers.
 Une seule page HTML autonome : `index.html`. Interface en **français** (par défaut), **néerlandais** et **anglais**.
 
 ## Modules
