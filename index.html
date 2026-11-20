@@ -702,6 +702,28 @@ nav.tabs.solo .badge{position:static;margin-left:2px}
 .yhz .segc button{font-size:12.5px;min-height:40px}
 .yst{max-width:220px}
 @media(min-width:760px){.yhz{grid-template-columns:1fr 200px}.yst{max-width:none}}
+
+/* ---- v12: trucks & registration certificates ---- */
+.tk-bar{display:flex;gap:10px;align-items:center;margin-top:14px}
+.tk-bar .search{margin:0;flex:1}
+.tk-bar .btn{flex:none;min-height:46px}
+.tk-f{margin-top:10px;grid-template-columns:repeat(3,1fr)}
+.tk-list{display:grid;gap:10px;margin-top:14px}
+@media(min-width:1280px){.tk-list{grid-template-columns:1fr 1fr;align-items:start}.tk.open{grid-column:1/-1}}
+.tk{padding:0;overflow:hidden}
+.tk.open{border-color:rgba(93,191,162,.3)}
+.tk-h{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:4px 10px;width:100%;padding:14px 16px;border:0;background:none;color:var(--ink);text-align:left;cursor:pointer;align-items:center}
+.tk-h:active{background:rgba(255,255,255,.03)}
+.tk-plate{font:700 17px/1.1 var(--disp);letter-spacing:.04em}
+.tk-meta{grid-row:2;font-size:13px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tk-h .pill{grid-row:1/3;grid-column:2}
+.tk-b{padding:0 16px 16px;border-top:1px solid var(--line);padding-top:14px}
+.tk-b .photos{grid-template-columns:1fr 1fr}
+.tk-b .ph{min-height:120px}
+.tk-hint{display:block;margin-top:2px}
+.tk-hint.ok{color:var(--ok)}.tk-hint.warn{color:var(--warn)}
+.rail .rb-w{background:var(--warn);color:#1B120B}
+@media(max-width:759px){.tk-bar{flex-direction:column;align-items:stretch}.tk-bar .btn{width:100%}}
 </style>
 </head>
 <body>
@@ -722,6 +744,7 @@ nav.tabs.solo .badge{position:static;margin-left:2px}
     <button data-go="voyages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span data-t="tabTrips"></span></button>
     <button data-go="rapport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><span data-t="tabRep"></span></button>
     <button data-go="simulation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg><span data-t="tabSim"></span></button>
+    <button data-go="camions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h5M7 14h8M16 9.5h1.5"/></svg><span data-t="tkH"></span><i class="rb rb-w" id="rail-tk" hidden></i></button>
     <button data-go="prix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg><span data-t="tabPrix"></span></button>
   </nav>
   <button class="rail-drv" data-go="chauffeur"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg><span data-t="drvH"></span></button>
@@ -811,6 +834,18 @@ nav.tabs.solo .badge{position:static;margin-left:2px}
   </div>
 </section>
 
+<!-- ============ TRUCKS ============ -->
+<section class="view" id="v-camions">
+  <div class="phead"><p class="eyebrow" data-t="eyeTk"></p><h1 data-t="tkH"></h1><p class="lede" data-t="tkLede"></p></div>
+  <div class="tk-bar">
+    <input class="search" id="tk-q" type="search" data-tp="tkSearch">
+    <button class="btn primary" id="tk-add" type="button" data-t="tkAdd"></button>
+  </div>
+  <div class="segc tk-f" id="tk-f" role="group"><button type="button" data-tf="" class="on" data-t="tkAll"></button><button type="button" data-tf="miss" data-t="tkMiss"></button><button type="button" data-tf="exp" data-t="tkExp"></button></div>
+  <div class="tk-list" id="tk-list"></div>
+  <p class="hint" data-t="tkPriv" style="margin-top:14px"></p>
+</section>
+
 <!-- ============ SETTINGS ============ -->
 <section class="view" id="v-prix">
   <p class="eyebrow" style="margin-top:14px" data-t="eyePrix"></p>
@@ -897,6 +932,7 @@ nav.tabs.solo .badge{position:static;margin-left:2px}
     <button data-go="voyages"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span><b data-t="tabTrips"></b><small id="hm-trips"></small></button>
     <button data-go="rapport"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></span><b data-t="tabRep"></b><small data-t="hmRep"></small></button>
     <button data-go="simulation"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span><b data-t="tabSim"></b><small data-t="hmSim"></small></button>
+    <button data-go="camions"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h5M7 14h8M16 9.5h1.5"/></svg></span><b data-t="tkH"></b><small id="hm-tk"></small></button>
     <button data-go="prix"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></span><b data-t="tabPrix"></b><small data-t="hmSet"></small></button>
     <button data-go="chauffeur"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span><b data-t="drvH"></b><small data-t="hmDrv"></small></button>
   </div>
@@ -916,7 +952,7 @@ nav.tabs.solo .badge{position:static;margin-left:2px}
         <label class="f"><span data-t="fDriver"></span><input name="chauffeur" required list="dl-chauffeur"></label>
         <label class="f"><span data-t="fTel"></span><input name="tel" type="tel" inputmode="tel"></label>
         <label class="f"><span data-t="fTrans"></span><input name="transporteur" required list="dl-trans"></label>
-        <label class="f"><span data-t="fPlate"></span><input name="plaque" required style="text-transform:uppercase" list="dl-plaque"></label>
+        <label class="f"><span data-t="fPlate"></span><input name="plaque" required style="text-transform:uppercase" list="dl-plaque"><small class="fh tk-hint" id="f-tk"></small></label>
       </div>
     </fieldset>
     <fieldset data-step="2">
@@ -966,7 +1002,7 @@ nav.tabs.solo .badge{position:static;margin-left:2px}
 (() => {
 /* ================= i18n ================= */
 const I18N = {
-fr:{app:'Registre',yHzL:{1:'1 mois',3:'3 mois',6:'6 mois',12:'1 an',24:'2 ans',36:'3 ans'},yStart:'Début',yNetP:p=>`Bénéfice net · ${p}`,yTripsP:'voyages',yNeedP:(n,m)=>`${n} camions nécessaires pour tout livrer en ${m} mois`,yBEday:'voyages / jour nécessaires',yBEvs:v=>`voyages/jour minimum · prévu : ${v}`,yH:'Simulation',yLede:'Projetez votre activité sur la période choisie : volumes, prix, coûts et bénéfice net, mois par mois.',yPru:'Prudent',yReal:'Réaliste',yOpt:'Optimiste',yData:'Mes données',
+fr:{app:'Registre',eyeTk:'Flotte',tkH:'Camions',tkLede:'Cartes grises des camions et de leurs chauffeurs. Photographiez le recto et le verso, indiquez la date d’expiration.',tkSearch:'Chercher une plaque, un chauffeur…',tkAdd:'+ Ajouter un camion',tkAll:'Tous',tkMiss:'Sans carte grise',tkExp:'Expire bientôt',tkCard:'Carte grise',tkRecto:'Recto',tkVerso:'Verso',tkExpD:'Expire le',tkOk:'Carte grise OK',tkNone:'Carte grise manquante',tkExpd:'Expirée',tkSoon:d=>`Expire dans ${d} j`,tkSave:'Enregistrer',tkDel:'Supprimer',tkSaved:'Camion enregistré',tkDeleted:'Camion supprimé',tkEmpty:'Aucun camion',tkEmptyTxt:'Les plaques de vos voyages apparaissent ici automatiquement. Ajoutez un camion pour enregistrer sa carte grise.',tkTrips:n=>`${n} voyage${n>1?'s':''}`,tkNote:'Remarque',tkNotePh:'Assurance, propriétaire, n° châssis…',tkPriv:'Les cartes grises contiennent des données personnelles : partagez ce registre uniquement avec des personnes de confiance, pas via un lien public.',tkHas:'Carte grise enregistrée',tkAddFor:'Ajouter la carte grise dans Camions',aTk:(p,x)=>`Carte grise ${x} — ${p}`,hmTk:n=>n?`${n} sans carte grise`:'Cartes grises à jour',tkPlateReq:'Plaque obligatoire',yHzL:{1:'1 mois',3:'3 mois',6:'6 mois',12:'1 an',24:'2 ans',36:'3 ans'},yStart:'Début',yNetP:p=>`Bénéfice net · ${p}`,yTripsP:'voyages',yNeedP:(n,m)=>`${n} camions nécessaires pour tout livrer en ${m} mois`,yBEday:'voyages / jour nécessaires',yBEvs:v=>`voyages/jour minimum · prévu : ${v}`,yH:'Simulation',yLede:'Projetez votre activité sur la période choisie : volumes, prix, coûts et bénéfice net, mois par mois.',yPru:'Prudent',yReal:'Réaliste',yOpt:'Optimiste',yData:'Mes données',
  yNet:'Bénéfice net annuel',yMargin:'Marge nette',yRev:'Chiffre d’affaires',yTon:'Tonnes livrées',yTrips:'Voyages / an',yBE:'Seuil de rentabilité',yBEv:v=>`${v} voyages / jour`,yCov:'Couverture des contrats',yCovS:(a,b)=>`${a} sur ${b} t`,yCovM:m=>`contrats livrés en ~${m} mois`,yCovNo:'Aucun contrat',yNeed:n=>`${n} camions nécessaires pour tout livrer en 12 mois`,
  yChart:'Résultat mensuel',yCum:'Cumul',yPL:'Compte de résultat',yPLrev:'Chiffre d’affaires',yPLbuy:'Achat marchandise',yPLfret:'Fret transporteurs',yPLtoll:'Péages',yPLdelay:'Retards',yPLgross:'Marge brute',yPLfix:'Frais fixes',yPLnet:'Résultat net',yPLloss:'dont pertes en route',yPerT:'par tonne',yCostKm:'Coût / km',
  gVol:'Volume & flotte',gPrice:'Prix & mix produits',gVar:'Coûts variables',gFix:'Coûts fixes',
@@ -1008,7 +1044,7 @@ fr:{app:'Registre',yHzL:{1:'1 mois',3:'3 mois',6:'6 mois',12:'1 an',24:'2 ans',3
  eyeRep:'Rapport mensuel',repH:'Rapport',repLede:'Résumé du mois par client et transporteur, à envoyer en PDF.',repMonth:'Mois',repByCl:'Par client',repByTr:'Par transporteur',repPdf:'Télécharger le PDF',repTitle:'Rapport de transport',repPeriod:'Période',repGen:'Généré le',repNoDl:'Téléchargement indisponible ici',repLoading:'Préparation du PDF…',repSaved:'PDF prêt',repFail:'PDF impossible — réessayez',
  csvH:['Client','Chauffeur','Téléphone','Transporteur','Immatriculation','Produit','Tonnage départ','Lieu départ','Heure départ','Lieu arrivée','Arrivée prévue','Arrivée réelle','Km','Tonnage déchargé','Prix achat/t','Fret/t','Péage routier','Péage minier','Coût retard','Prix vente/t','Motif','Coût total','Revenu','Marge','Coût/km','Perte (t)','À temps'],yes:'oui',no:'non',
  prods:{charbon:'Charbon',sable:'Sable',chips:'Gypse',terre:'Terre rouge'}},
-nl:{app:'Register',yHzL:{1:'1 mnd',3:'3 mnd',6:'6 mnd',12:'1 jaar',24:'2 jaar',36:'3 jaar'},yStart:'Start',yNetP:p=>`Nettowinst · ${p}`,yTripsP:'ritten',yNeedP:(n,m)=>`${n} vrachtwagens nodig om alles in ${m} maanden te leveren`,yBEday:'ritten / dag nodig',yBEvs:v=>`ritten/dag minimum · gepland: ${v}`,yH:'Simulatie',yLede:'Simuleer je activiteit over de gekozen periode: volumes, prijzen, kosten en nettowinst, maand per maand.',yPru:'Voorzichtig',yReal:'Realistisch',yOpt:'Optimistisch',yData:'Mijn data',
+nl:{app:'Register',eyeTk:'Vloot',tkH:'Vrachtwagens',tkLede:'Kentekenbewijzen van de vrachtwagens en hun chauffeurs. Fotografeer voor- en achterkant en vul de vervaldatum in.',tkSearch:'Zoek een nummerplaat, chauffeur…',tkAdd:'+ Vrachtwagen toevoegen',tkAll:'Alle',tkMiss:'Zonder kentekenbewijs',tkExp:'Vervalt binnenkort',tkCard:'Kentekenbewijs',tkRecto:'Voorkant',tkVerso:'Achterkant',tkExpD:'Vervalt op',tkOk:'Kentekenbewijs OK',tkNone:'Kentekenbewijs ontbreekt',tkExpd:'Vervallen',tkSoon:d=>`Vervalt over ${d} d`,tkSave:'Opslaan',tkDel:'Verwijderen',tkSaved:'Vrachtwagen opgeslagen',tkDeleted:'Vrachtwagen verwijderd',tkEmpty:'Geen vrachtwagens',tkEmptyTxt:'Nummerplaten uit je ritten verschijnen hier automatisch. Voeg een vrachtwagen toe om het kentekenbewijs op te slaan.',tkTrips:n=>`${n} rit${n>1?'ten':''}`,tkNote:'Opmerking',tkNotePh:'Verzekering, eigenaar, chassisnummer…',tkPriv:'Kentekenbewijzen bevatten persoonsgegevens: deel dit register alleen met mensen die je vertrouwt, niet via een publieke link.',tkHas:'Kentekenbewijs opgeslagen',tkAddFor:'Voeg het kentekenbewijs toe bij Vrachtwagens',aTk:(p,x)=>`Kentekenbewijs ${x} — ${p}`,hmTk:n=>n?`${n} zonder kentekenbewijs`:'Kentekenbewijzen in orde',tkPlateReq:'Nummerplaat verplicht',yHzL:{1:'1 mnd',3:'3 mnd',6:'6 mnd',12:'1 jaar',24:'2 jaar',36:'3 jaar'},yStart:'Start',yNetP:p=>`Nettowinst · ${p}`,yTripsP:'ritten',yNeedP:(n,m)=>`${n} vrachtwagens nodig om alles in ${m} maanden te leveren`,yBEday:'ritten / dag nodig',yBEvs:v=>`ritten/dag minimum · gepland: ${v}`,yH:'Simulatie',yLede:'Simuleer je activiteit over de gekozen periode: volumes, prijzen, kosten en nettowinst, maand per maand.',yPru:'Voorzichtig',yReal:'Realistisch',yOpt:'Optimistisch',yData:'Mijn data',
  yNet:'Jaarlijkse nettowinst',yMargin:'Nettomarge',yRev:'Omzet',yTon:'Geleverde ton',yTrips:'Ritten / jaar',yBE:'Break-even',yBEv:v=>`${v} ritten / dag`,yCov:'Dekking contracten',yCovS:(a,b)=>`${a} van ${b} t`,yCovM:m=>`contracten geleverd in ~${m} maanden`,yCovNo:'Geen contracten',yNeed:n=>`${n} vrachtwagens nodig om alles in 12 maanden te leveren`,
  yChart:'Resultaat per maand',yCum:'Cumulatief',yPL:'Resultatenrekening',yPLrev:'Omzet',yPLbuy:'Aankoop goederen',yPLfret:'Vracht transporteurs',yPLtoll:'Tol',yPLdelay:'Vertragingen',yPLgross:'Brutomarge',yPLfix:'Vaste kosten',yPLnet:'Nettoresultaat',yPLloss:'waarvan verlies onderweg',yPerT:'per ton',yCostKm:'Kost / km',
  gVol:'Volume & vloot',gPrice:'Prijzen & productmix',gVar:'Variabele kosten',gFix:'Vaste kosten',
@@ -1050,7 +1086,7 @@ nl:{app:'Register',yHzL:{1:'1 mnd',3:'3 mnd',6:'6 mnd',12:'1 jaar',24:'2 jaar',3
  eyeRep:'Maandrapport',repH:'Rapport',repLede:'Samenvatting van de maand per klant en transporteur, te versturen als PDF.',repMonth:'Maand',repByCl:'Per klant',repByTr:'Per transporteur',repPdf:'PDF downloaden',repTitle:'Transportrapport',repPeriod:'Periode',repGen:'Gemaakt op',repNoDl:'Downloaden hier niet beschikbaar',repLoading:'PDF voorbereiden…',repSaved:'PDF klaar',repFail:'PDF mislukt — probeer opnieuw',
  csvH:['Klant','Chauffeur','Telefoon','Transporteur','Nummerplaat','Product','Tonnage vertrek','Vertrekplaats','Vertrekuur','Aankomstplaats','Geplande aankomst','Echte aankomst','Km','Gelost tonnage','Aankoopprijs/t','Vracht/t','Wegtol','Mijntol','Kost vertraging','Verkoopprijs/t','Reden','Totale kost','Omzet','Marge','Kost/km','Verlies (t)','Op tijd'],yes:'ja',no:'nee',
  prods:{charbon:'Steenkool',sable:'Zand',chips:'Gips',terre:'Rode aarde'}},
-en:{app:'Registry',yHzL:{1:'1 mo',3:'3 mo',6:'6 mo',12:'1 yr',24:'2 yrs',36:'3 yrs'},yStart:'Start',yNetP:p=>`Net profit · ${p}`,yTripsP:'trips',yNeedP:(n,m)=>`${n} trucks needed to deliver everything in ${m} months`,yBEday:'trips / day needed',yBEvs:v=>`trips/day minimum · planned: ${v}`,yH:'Simulation',yLede:'Project your business over the chosen period: volumes, prices, costs and net profit, month by month.',yPru:'Cautious',yReal:'Realistic',yOpt:'Optimistic',yData:'My data',
+en:{app:'Registry',eyeTk:'Fleet',tkH:'Trucks',tkLede:'Registration certificates of the trucks and their drivers. Photograph front and back and enter the expiry date.',tkSearch:'Search a plate, driver…',tkAdd:'+ Add truck',tkAll:'All',tkMiss:'No certificate',tkExp:'Expiring soon',tkCard:'Registration',tkRecto:'Front',tkVerso:'Back',tkExpD:'Expires on',tkOk:'Registration OK',tkNone:'Registration missing',tkExpd:'Expired',tkSoon:d=>`Expires in ${d} d`,tkSave:'Save',tkDel:'Delete',tkSaved:'Truck saved',tkDeleted:'Truck deleted',tkEmpty:'No trucks',tkEmptyTxt:'Plates from your trips show up here automatically. Add a truck to store its registration certificate.',tkTrips:n=>`${n} trip${n>1?'s':''}`,tkNote:'Note',tkNotePh:'Insurance, owner, chassis no…',tkPriv:'Registration certificates contain personal data: only share this registry with people you trust, not via a public link.',tkHas:'Registration on file',tkAddFor:'Add the registration in Trucks',aTk:(p,x)=>`Registration ${x} — ${p}`,hmTk:n=>n?`${n} without registration`:'Registrations up to date',tkPlateReq:'Plate required',yHzL:{1:'1 mo',3:'3 mo',6:'6 mo',12:'1 yr',24:'2 yrs',36:'3 yrs'},yStart:'Start',yNetP:p=>`Net profit · ${p}`,yTripsP:'trips',yNeedP:(n,m)=>`${n} trucks needed to deliver everything in ${m} months`,yBEday:'trips / day needed',yBEvs:v=>`trips/day minimum · planned: ${v}`,yH:'Simulation',yLede:'Project your business over the chosen period: volumes, prices, costs and net profit, month by month.',yPru:'Cautious',yReal:'Realistic',yOpt:'Optimistic',yData:'My data',
  yNet:'Annual net profit',yMargin:'Net margin',yRev:'Revenue',yTon:'Tonnes delivered',yTrips:'Trips / year',yBE:'Break-even',yBEv:v=>`${v} trips / day`,yCov:'Contract coverage',yCovS:(a,b)=>`${a} of ${b} t`,yCovM:m=>`contracts delivered in ~${m} months`,yCovNo:'No contracts',yNeed:n=>`${n} trucks needed to deliver everything in 12 months`,
  yChart:'Monthly result',yCum:'Cumulative',yPL:'Profit & loss',yPLrev:'Revenue',yPLbuy:'Goods purchase',yPLfret:'Carrier freight',yPLtoll:'Tolls',yPLdelay:'Delays',yPLgross:'Gross margin',yPLfix:'Fixed costs',yPLnet:'Net result',yPLloss:'of which loss in transit',yPerT:'per tonne',yCostKm:'Cost / km',
  gVol:'Volume & fleet',gPrice:'Prices & product mix',gVar:'Variable costs',gFix:'Fixed costs',
@@ -1195,6 +1231,7 @@ function computeAlerts(){
     if (!v.hArr && v.hPrev) { const over = (Date.now() - new Date(v.hPrev).getTime())/36e5; if (over > lateH()) out.push({lvl:'bad', ic:'clock', txt:t('aLate', fmt(over,0), label(v)), id:v.id}); }
   });
   voyages.filter(v=>v.plan && v.hDep && Date.now() > new Date(v.hDep).getTime() + 36e5).forEach(v => out.push({lvl:'warn', ic:'clock', txt:t('aPlan', label(v)), id:v.id}));
+  camions.forEach(c => { const st = tkStatus(c); if (st.k === 'exp') out.push({lvl: st.cls==='late'?'bad':'warn', ic:'clock', txt:t('aTk', c.plaque, st.lbl.toLowerCase()), tk: plateId(c.plaque)}); });
   clients.forEach(c => { const p = clientPace(c); if (isFinite(p.req) && p.reste > 0 && p.req > p.cur * 1.05) out.push({lvl:'warn', ic:'trend', txt:t('aPace', c.nom, fmt(p.req,0), fmt(p.cur,0)), client:c.nom}); });
   return out;
 }
@@ -1206,7 +1243,7 @@ function renderAlerts(){
   $('#alerts').innerHTML = shown.map((a,i)=>`<div class="alert ${a.lvl}" data-al="${i}" role="button" tabindex="0">${ICON[a.ic]}<div>${esc(a.txt)}</div><span class="go">${t('aOpen')} ›</span></div>`).join('') +
     (al.length > 4 ? `<div class="fcount" style="padding-left:4px">${t('aMore', al.length-4)}</div>` : '');
   $('#alerts').onclick = e => { const el = e.target.closest('[data-al]'); if (!el) return; const a = shown[+el.dataset.al];
-    if (a.id) { const v = voyages.find(x=>x.id===a.id); if (v) openSheet(v, 2); } else if (a.client) { state.client = a.client; render(); $('#sec-clients').scrollIntoView({behavior:'smooth'}); } };
+    if (a.tk) { tkOpen = a.tk; go('camions'); } else if (a.id) { const v = voyages.find(x=>x.id===a.id); if (v) openSheet(v, 2); } else if (a.client) { state.client = a.client; render(); $('#sec-clients').scrollIntoView({behavior:'smooth'}); } };
   return nBad;
 }
 
@@ -1564,6 +1601,7 @@ function render(){
   if (state.view==='rapport') renderReport();
   if (state.view==='chauffeur') renderDriver();
   if (state.view==='simulation') renderYear(false);
+  if (state.view==='camions') renderTrucks();
   renderHomeMenu();
   renderDatalists();
   cacheSave();
@@ -1725,12 +1763,116 @@ $('#v-simulation').addEventListener('click', async e => {
   if (e.target.id === 'y-apply') { await saveConfig({...config, marche:{...config.marche, ...Y.sell}}); sim = null; toast(t('tYApplied')); }
 });
 
+
+/* ================= trucks & registration certificates ================= */
+let camions = [], tkFilter = '', tkOpen = null, tkNew = false;
+const tkPhotos = {};   // plateId -> {recto, verso} new dataUrls
+const plateId = p => String(p||'').toUpperCase().replace(/[^A-Z0-9]+/g,'-').replace(/^-|-$/g,'') || 'X';
+function tkStatus(c){
+  const has = c && c.photos && (c.photos.recto || c.photos.verso);
+  if (!has) return {k:'miss', lbl:t('tkNone'), cls:'late'};
+  if (c.exp) { const d = Math.ceil((new Date(c.exp+'T23:59').getTime() - Date.now())/DAY);
+    if (d < 0) return {k:'exp', lbl:t('tkExpd'), cls:'late'};
+    if (d <= 30) return {k:'exp', lbl:t('tkSoon', d), cls:'route'}; }
+  return {k:'ok', lbl:t('tkOk'), cls:'ok'};
+}
+function tkAll(){
+  const map = {};
+  camions.forEach(c => map[plateId(c.plaque)] = {...c});
+  real().concat(voyages.filter(v=>v.plan)).sort((a,b)=>new Date(b.hDep||b.created)-new Date(a.hDep||a.created)).forEach(v => {
+    const id = plateId(v.plaque); if (!v.plaque) return;
+    const c = map[id] || (map[id] = {plaque: v.plaque.toUpperCase(), auto: true});
+    c.trips = (c.trips||0) + 1;
+    if (!c.chauffeur) c.chauffeur = v.chauffeur; if (!c.tel) c.tel = v.tel; if (!c.transporteur) c.transporteur = v.transporteur;
+  });
+  return Object.values(map);
+}
+const tkPhotoOf = (c, k) => tkPhotos[plateId(c.plaque)]?.[k] || outbox.find(o=>o.type==='photo' && o.cam===plateId(c.plaque) && o.kind===k)?.dataUrl || photoUrl(c.photos?.[k]);
+function renderTrucks(){
+  const q = ($('#tk-q').value||'').toLowerCase();
+  document.querySelectorAll('#tk-f [data-tf]').forEach(b => b.classList.toggle('on', b.dataset.tf === tkFilter));
+  let list = tkAll().filter(c => !q || [c.plaque, c.chauffeur, c.transporteur, c.tel].join(' ').toLowerCase().includes(q));
+  if (tkFilter) list = list.filter(c => tkStatus(c).k === tkFilter);
+  list.sort((a,b) => (tkStatus(a).k==='ok') - (tkStatus(b).k==='ok') || String(a.plaque).localeCompare(String(b.plaque)));
+  if (tkNew) list.unshift({plaque:'', _new:true});
+  $('#tk-list').innerHTML = list.length ? list.map(c => {
+    const id = c._new ? '_new' : plateId(c.plaque), st = c._new ? null : tkStatus(c), open = tkOpen === id || c._new;
+    const ph = k => { const src = c._new ? tkPhotos._new?.[k] : tkPhotoOf(c, k);
+      return `<label class="ph ${src?'has':''}">${src?`<img src="${esc(src)}" alt="" data-zoom>`:ICON.cam+`<span>${t('phAdd')}</span>`}<span class="lbl">${t(k==='recto'?'tkRecto':'tkVerso')}</span>${canWriteFlag?`<input type="file" accept="image/*" capture="environment" data-tkph="${k}" data-tk="${id}">`:''}</label>`; };
+    return `<div class="card tk ${open?'open':''}" data-tkid="${id}">
+      <button type="button" class="tk-h" data-tktoggle="${id}" aria-expanded="${open}">
+        <span class="tk-plate">${esc(c.plaque || '—')}</span>
+        <span class="tk-meta">${esc([c.chauffeur, c.transporteur].filter(Boolean).join(' · ') || '')}${c.trips?` · ${t('tkTrips', c.trips)}`:''}</span>
+        ${st?`<span class="pill ${st.cls}">${esc(st.lbl)}</span>`:''}
+      </button>
+      ${open ? `<form class="tk-b" data-tkform="${id}" autocomplete="off">
+        <div class="fg">
+          <label class="f"><span>${t('fPlate')}</span><input name="plaque" required style="text-transform:uppercase" value="${esc(c.plaque||'')}" ${c._new?'':'readonly'}></label>
+          <label class="f"><span>${t('fDriver')}</span><input name="chauffeur" list="dl-chauffeur" value="${esc(c.chauffeur||'')}"></label>
+          <label class="f"><span>${t('fTel')}</span><input name="tel" type="tel" inputmode="tel" value="${esc(c.tel||'')}"></label>
+          <label class="f"><span>${t('fTrans')}</span><input name="transporteur" list="dl-trans" value="${esc(c.transporteur||'')}"></label>
+          <label class="f"><span>${t('tkExpD')}</span><input name="exp" type="date" value="${esc(c.exp||'')}"></label>
+          <label class="f"><span>${t('tkNote')}</span><input name="note" value="${esc(c.note||'')}" placeholder="${esc(t('tkNotePh'))}"></label>
+        </div>
+        <p class="eyebrow" style="margin:14px 0 6px">${t('tkCard')}</p>
+        <div class="photos">${ph('recto')}${ph('verso')}</div>
+        ${canWriteFlag ? `<div class="act two-b">${c._new || c.auto ? '<span></span>' : `<button class="btn danger" type="button" data-tkdel="${id}">${t('tkDel')}</button>`}<button class="btn primary" type="submit">${t('tkSave')}</button></div>` : ''}
+      </form>` : ''}
+    </div>`; }).join('') : `<div class="card empty"><b>${t('tkEmpty')}</b>${t('tkEmptyTxt')}</div>`;
+}
+function tkCounts(){ const all = tkAll(); return {miss: all.filter(c=>tkStatus(c).k==='miss').length, exp: all.filter(c=>tkStatus(c).k==='exp').length}; }
+$('#tk-q').addEventListener('input', renderTrucks);
+$('#v-camions').addEventListener('click', async e => {
+  const f = e.target.closest('[data-tf]'); if (f) { tkFilter = f.dataset.tf; renderTrucks(); return; }
+  if (e.target.id === 'tk-add') { tkNew = true; tkOpen = '_new'; renderTrucks(); setTimeout(()=>document.querySelector('[data-tkform="_new"] [name=plaque]')?.focus(), 50); return; }
+  const tg = e.target.closest('[data-tktoggle]'); if (tg) { const id = tg.dataset.tktoggle; if (id === '_new') { tkNew = false; tkOpen = null; } else tkOpen = tkOpen === id ? null : id; renderTrucks(); return; }
+  const d = e.target.closest('[data-tkdel]');
+  if (d) { if (d.dataset.armed !== '1') { d.dataset.armed = '1'; d.textContent = t('confirm'); setTimeout(()=>{ if (d.isConnected) { d.dataset.armed=''; d.textContent=t('tkDel'); } }, 3000); return; }
+    try { await dbWrite({type:'del', path:'camions/'+d.dataset.tkdel}); tkOpen = null; toast(t('tkDeleted')); } catch (err) { toast(errMsg(err)); } }
+});
+$('#v-camions').addEventListener('change', async e => {
+  const k = e.target.dataset?.tkph; if (!k || !e.target.files?.[0]) return;
+  const id = e.target.dataset.tk;
+  try { (tkPhotos[id] ||= {})[k] = await compress(e.target.files[0]); } catch { toast(t('tPhotoErr')); return; }
+  renderTrucks();
+});
+$('#v-camions').addEventListener('submit', async e => {
+  const form = e.target.closest('[data-tkform]'); if (!form) return; e.preventDefault();
+  const raw = form.dataset.tkform, plaque = form.plaque.value.trim().toUpperCase();
+  if (!plaque) { toast(t('tkPlateReq')); return; }
+  const id = plateId(plaque), prev = camions.find(c => plateId(c.plaque) === id) || {};
+  const btn = form.querySelector('[type=submit]'); btn.disabled = true;
+  try {
+    const photos = {...(prev.photos||{})};
+    for (const [k, dataUrl] of Object.entries(tkPhotos[raw] || {})) {
+      if (!navigator.onLine) { queue({type:'photo', cam:id, kind:k, dataUrl}); continue; }
+      try { photos[k] = await storePhoto(dataUrl); } catch { queue({type:'photo', cam:id, kind:k, dataUrl}); }
+    }
+    delete tkPhotos[raw];
+    const doc = {...prev, plaque, chauffeur: form.chauffeur.value.trim(), tel: form.tel.value.trim(), transporteur: form.transporteur.value.trim(), exp: form.exp.value, note: form.note.value.trim(), photos, updated: new Date().toISOString()};
+    delete doc.auto; delete doc.trips; delete doc._new;
+    const r = await dbWrite({type:'set', path:'camions/'+id, data:doc});
+    tkNew = false; tkOpen = id; toast(r === 'queued' ? t('tQueued') : t('tkSaved'));
+  } catch (err) { toast(errMsg(err)); }
+  finally { btn.disabled = false; renderTrucks(); }
+});
+function tkFormHint(){
+  const el = $('#f-tk'); if (!el) return;
+  const p = form.plaque.value.trim(); if (!p) { el.textContent = ''; return; }
+  const c = camions.find(x => plateId(x.plaque) === plateId(p));
+  const st = c ? tkStatus(c) : {k:'miss'};
+  el.textContent = st.k === 'ok' ? '✓ ' + t('tkHas') : st.k === 'exp' ? '⚠ ' + st.lbl : t('tkAddFor');
+  el.className = 'fh tk-hint ' + (st.k === 'ok' ? 'ok' : 'warn');
+}
+
 /* ================= home menu (popup) ================= */
 function renderHomeMenu(){
   const al = computeAlerts().length;
   const set = (id, v) => { const el = $(id); if (el) el.textContent = v; };
   set('#hm-dash', al ? t('hmAlerts', al) : t('hmOk'));
   set('#hm-trips', t('hmTrips', voyages.length));
+  const tc = tkCounts(); set('#hm-tk', t('hmTk', tc.miss + tc.exp));
+  const rt = $('#rail-tk'); if (rt) { rt.hidden = !(tc.miss + tc.exp); rt.textContent = tc.miss + tc.exp; }
   set('#hm-sync', $('#sync span')?.textContent || '');
   document.querySelectorAll('#hmenu [data-go], #rail [data-go]').forEach(b => b.classList.toggle('on', b.dataset.go === state.view));
   const rb = $('#rail-badge'); if (rb) { rb.hidden = !al; rb.textContent = al > 9 ? '9+' : al; }
@@ -1745,7 +1887,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeHome();
 $('#hmenu').addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (!b) return; closeHome(); const v = b.dataset.go; if (v === 'chauffeur') enterDriver(); else go(v); });
 
 /* ================= navigation ================= */
-const VIEWS = ['tableau','voyages','rapport','prix','chauffeur','simulation'];
+const VIEWS = ['tableau','voyages','rapport','prix','chauffeur','simulation','camions'];
 function go(v){
   state.view = v;
   document.body.classList.toggle('driver', v==='chauffeur');
@@ -1848,7 +1990,7 @@ $('#recent').addEventListener('click', e => {
   if (config.tarifs?.[v.transporteur]) form.tarifT.value = config.tarifs[v.transporteur];
   renderClientSelect(v.client||''); const c = clientOf(v.client); if (c?.prix) form.pVente.value = c.prix;
   prodSel = v.prod || prodSel; form.pAchat.value = config.achat?.[prodSel] || v.pAchat || '';
-  segRender(); liveCalc(); toast(t('tRecent')); showStep(2);
+  segRender(); liveCalc(); tkFormHint(); toast(t('tRecent')); showStep(2);
 });
 function openSheet(v, startStep){
   editing = v ? v.id : null; form.reset(); formPhotos = {};
@@ -1861,7 +2003,7 @@ function openSheet(v, startStep){
     const c = clientOf(state.client); if (c?.prix) form.pVente.value = c.prix;
     if (state.trans && config.tarifs?.[state.trans]) { form.transporteur.value = state.trans; form.tarifT.value = config.tarifs[state.trans]; }
   }
-  segRender(); planUI(); renderFormPhotos(); liveCalc();
+  segRender(); planUI(); renderFormPhotos(); liveCalc(); tkFormHint();
   $('#recent').hidden = !!v; if(!v) renderRecent();
   showStep(startStep || 1);
   $('#sheet').style.transform='';
@@ -1879,6 +2021,7 @@ function liveCalc(){
     : `<div>${t('fPVente')}<b>${money(sp,2)}</b></div><div>${t('cRev')}<b>${money(n(d.tDep)*sp)}</b></div>`}`;
 }
 form.addEventListener('input', liveCalc);
+form.plaque.addEventListener('input', tkFormHint); form.plaque.addEventListener('change', tkFormHint);
 form.addEventListener('submit', e => e.preventDefault());
 $('#add').onclick = () => { closeHome(); openSheet(null); };
 $('#close').onclick = closeSheet; $('#scrim').onclick = closeSheet;
@@ -2039,6 +2182,8 @@ function applyLocal(op){
   if (op.type==='set' && op.path.startsWith('voyages/')) { const i = voyages.findIndex(v=>v.id===op.data.id); i>=0 ? voyages[i]=op.data : voyages.push(op.data); }
   if (op.type==='del' && op.path.startsWith('voyages/')) voyages = voyages.filter(v=>'voyages/'+v.id !== op.path);
   if (op.type==='set' && op.path==='config/clients') clients = op.data.list;
+  if (op.type==='set' && op.path.startsWith('camions/')) { const id = op.path.slice(8), i = camions.findIndex(c=>plateId(c.plaque)===id); i>=0 ? camions[i]=op.data : camions.push(op.data); }
+  if (op.type==='del' && op.path.startsWith('camions/')) { const id = op.path.slice(8); camions = camions.filter(c=>plateId(c.plaque)!==id); }
   if (op.type==='set' && op.path==='config/prix') { config = {...config, ...op.data}; sim = null; }
 }
 async function dbWrite(op){
@@ -2055,7 +2200,11 @@ async function flush(){
   try {
     for (const op of [...outbox]) {
       try {
-        if (op.type === 'photo') {
+        if (op.type === 'photo' && op.cam) {
+          const ref = await storePhoto(op.dataUrl);
+          const c = camions.find(x=>plateId(x.plaque)===op.cam);
+          if (c) { const nc = {...c, photos:{...(c.photos||{}), [op.kind]: ref}}; await withTimeout(db.doc('camions/'+op.cam).set(nc)); }
+        } else if (op.type === 'photo') {
           const ref = await storePhoto(op.dataUrl);
           const v = voyages.find(x=>x.id===op.vid);
           if (v) { const nv = {...v, photos:{...(v.photos||{}), [op.kind]: ref}}; await withTimeout(db.doc('voyages/'+v.id).set(nv)); }
@@ -2070,9 +2219,9 @@ window.addEventListener('online', () => { setSync('on','sOk'); flush(); });
 window.addEventListener('offline', () => setSync('off','sOff'));
 setInterval(flush, 20000);
 function overlayOutbox(){ outbox.forEach(op => { if (op.type!=='photo') applyLocal(op); }); }
-let cacheT; function cacheSave(){ if (!db) return; clearTimeout(cacheT); cacheT = setTimeout(() => LSset(CACHE, JSON.stringify({voyages, clients, config})), 800); }
-function cacheLoad(){ try { const o = JSON.parse(LSget(CACHE) || 'null'); if (o) { voyages = o.voyages||[]; clients = o.clients||[]; config = {...config, ...o.config}; sim = null; } } catch {} }
-function localPersist(){ LSset(LS, JSON.stringify({voyages, config, clients})); }
+let cacheT; function cacheSave(){ if (!db) return; clearTimeout(cacheT); cacheT = setTimeout(() => LSset(CACHE, JSON.stringify({voyages, clients, config, camions})), 800); }
+function cacheLoad(){ try { const o = JSON.parse(LSget(CACHE) || 'null'); if (o) { voyages = o.voyages||[]; clients = o.clients||[]; camions = o.camions||[]; config = {...config, ...o.config}; sim = null; } } catch {} }
+function localPersist(){ LSset(LS, JSON.stringify({voyages, config, clients, camions})); }
 const store = {
   saveVoyage: d => dbWrite({type:'set', path:'voyages/'+d.id, data:d}),
   deleteVoyage: id => dbWrite({type:'del', path:'voyages/'+id}),
@@ -2086,7 +2235,7 @@ async function init(){
   try { cl = window.claude && await window.claude.use('db'); } catch { cl = null; }
   try { downloads = window.claude ? await window.claude.use('downloads') : null; } catch { downloads = null; }
   if (!cl) {
-    db = null; try { const o = JSON.parse(LSget(LS)||'{}'); voyages = o.voyages||[]; clients = o.clients||[]; if(o.config) config = normConfig(o.config); } catch {}
+    db = null; try { const o = JSON.parse(LSget(LS)||'{}'); voyages = o.voyages||[]; clients = o.clients||[]; camions = o.camions||[]; if(o.config) config = normConfig(o.config); } catch {}
     sim = null;
     if (!clients.length) { clients = DEFAULT_CLIENTS.map(c=>({...c, prix:0, fin:''})); localPersist(); }
     setSync('off','sLocal'); render(); return;
@@ -2100,12 +2249,13 @@ async function init(){
     if (!snap.metadata.fromCache) { loaded = true; clearTimeout(timer); setSync('on','sOk'); flush(); }
     render();
   }, err => { clearTimeout(timer); setSync('off', err.code==='revoked'?'sRevoked':'sOff'); });
+  db.collection('camions').onSnapshot(snap => { camions = snap.docs.map(d => ({...d.data()})); overlayOutbox(); render(); }, () => {});
   db.doc('config/clients').onSnapshot(s => {
     clients = s.exists && Array.isArray(s.data().list) ? s.data().list.map(c=>({nom:String(c.nom||''), obj:n(c.obj), prix:n(c.prix), fin:String(c.fin||'')})).filter(c=>c.nom) : [];
     render();
   }, () => {});
   db.doc('config/prix').onSnapshot(s => { if (s.exists) { config = normConfig(s.data()); sim = {...config.marche}; } render(); }, () => {});
-  try { const u = await window.claude.use('user'); const w = u && await u.can?.('data.write'); if (w === false) { canWriteFlag = false; ['#add','#rail-new','#save-prix','#cl-save','#cl-add','#tr-save','#tr-add','#al-save','#y-save','#y-apply'].forEach(s=>{ const el=$(s); if (el) el.hidden=true; }); } } catch {}
+  try { const u = await window.claude.use('user'); const w = u && await u.can?.('data.write'); if (w === false) { canWriteFlag = false; ['#add','#rail-new','#save-prix','#cl-save','#cl-add','#tr-save','#tr-add','#al-save','#y-save','#y-apply','#tk-add'].forEach(s=>{ const el=$(s); if (el) el.hidden=true; }); } } catch {}
 }
 let h0 = location.hash.slice(1);
 if (LSget('registre-driver') === '1' && h0 !== 'tableau' && h0 !== 'prix') h0 = 'chauffeur';

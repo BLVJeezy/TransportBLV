@@ -11,6 +11,7 @@ Une seule page HTML autonome : `index.html`. Interface en **français** (par dé
 4. **Analyse & dispatching**: coût au km, taux de livraison à temps par transporteur, pertes en route, marge, avancement des contrats par client avec rythme requis (t/jour, camions/jour), alertes, simulateur de prix du marché.
 
 Plus :
+- **Camions**: cartes grises (recto/verso), date d'expiration, alertes avant expiration.
 - **Mode chauffeur**: écran simplifié (départ / arrivée / tonnage / photo), sans prix ni marges.
 - **Hors ligne**: les voyages et photos sont gardés sur le téléphone et envoyés automatiquement au retour du réseau.
 - **Rapport mensuel**: par client et transporteur, export **PDF** et CSV (Excel).
@@ -21,7 +22,7 @@ L'application est publiée comme artefact sur claude.ai et utilise ses capacité
 
 | Capacité | Usage |
 |---|---|
-| `db` | voyages (`voyages/*`), clients (`config/clients`), prix / tarifs / alertes (`config/prix`), photos de secours (`photos/*`) |
+| `db` | voyages (`voyages/*`), camions et cartes grises (`camions/*`), clients (`config/clients`), prix / tarifs / alertes (`config/prix`), photos de secours (`photos/*`) |
 | `assets` (`upload: "interact"`) | photos des bons |
 | `downloads` | rapport PDF |
 | `user` | droits d'écriture |
