@@ -685,6 +685,23 @@ nav.tabs button.add{background:var(--accent);color:#1B120B;box-shadow:0 6px 16px
 .ymr .nm{grid-column:1/-1;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
 .ymr .nm i{width:12px;height:12px;border-radius:3px}
 @media(min-width:760px){.ygrid{grid-template-columns:repeat(3,1fr)}.ykpis{grid-template-columns:repeat(2,1fr)}}
+
+/* ---- v11: single Home button + sim time frame ---- */
+nav.tabs.solo{padding:6px;gap:0;border-radius:22px}
+nav.tabs.solo #home-btn{min-width:120px;min-height:52px;flex-direction:row;gap:8px;font-size:14px;font-weight:600;padding:0 22px;border-radius:16px;background:var(--brand-t);color:var(--brand-2)}
+nav.tabs.solo #home-btn svg{width:20px;height:20px}
+nav.tabs.solo #home-btn[aria-expanded="true"]{background:var(--brand);color:#0F1716}
+nav.tabs.solo .badge{position:static;margin-left:2px}
+@media(max-width:759px){nav.tabs.solo{left:50%;right:auto;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));border-radius:22px;border-width:1px;padding:6px}nav.tabs.solo #home-btn{flex:none;min-width:150px}}
+.hmenu{bottom:calc(86px + env(safe-area-inset-bottom));transform-origin:50% 100%}
+.hnew{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:54px;margin-bottom:10px;border:0;border-radius:16px;background:var(--accent);color:#1B120B;font:600 15px/1 var(--txt);cursor:pointer;box-shadow:0 8px 20px -10px rgba(217,135,79,.75)}
+.hnew svg{width:20px;height:20px}
+.hnew:active{transform:scale(.98)}
+.yhz{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px;align-items:end}
+.yhz .segc{grid-template-columns:repeat(6,1fr)}
+.yhz .segc button{font-size:12.5px;min-height:40px}
+.yst{max-width:220px}
+@media(min-width:760px){.yhz{grid-template-columns:1fr 200px}.yst{max-width:none}}
 </style>
 </head>
 <body>
@@ -784,6 +801,10 @@ nav.tabs button.add{background:var(--accent);color:#1B120B;box-shadow:0 6px 16px
   <div class="segc ypre" id="y-pre" role="group">
     <button type="button" data-pre="prudent" data-t="yPru"></button><button type="button" data-pre="real" data-t="yReal"></button><button type="button" data-pre="opti" data-t="yOpt"></button><button type="button" data-pre="data" data-t="yData"></button>
   </div>
+  <div class="yhz">
+    <div class="segc" id="y-hz" role="group" aria-label="Horizon"><button type="button" data-hz="1"></button><button type="button" data-hz="3"></button><button type="button" data-hz="6"></button><button type="button" data-hz="12"></button><button type="button" data-hz="24"></button><button type="button" data-hz="36"></button></div>
+    <label class="f yst"><span data-t="yStart"></span><input type="month" id="y-start"></label>
+  </div>
   <div class="ylay">
     <div class="yres" id="y-res"></div>
     <div class="yin" id="y-in"></div>
@@ -864,14 +885,13 @@ nav.tabs button.add{background:var(--accent);color:#1B120B;box-shadow:0 6px 16px
 </section>
 </main>
 
-<nav class="tabs" id="tabs">
+<nav class="tabs solo" id="tabs">
   <button id="home-btn" class="on" aria-haspopup="dialog" aria-expanded="false" aria-controls="hmenu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg><span data-t="tabHome"></span><i class="badge" id="badge" hidden></i></button>
-  <button class="add" id="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span data-t="tabNew"></span></button>
-  <button data-v="simulation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg><span data-t="tabSim"></span></button>
 </nav>
 <div class="hscrim" id="hscrim"></div>
 <div class="hmenu" id="hmenu" role="dialog" aria-modal="true" aria-labelledby="hmenu-t">
   <div class="hmenu-h"><b id="hmenu-t" data-t="menuH"></b><span class="hm-sync" id="hm-sync"></span></div>
+  <button class="hnew" id="add" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span data-t="newTrip"></span></button>
   <div class="hgrid">
     <button data-go="tableau"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><b data-t="tabDash"></b><small id="hm-dash"></small></button>
     <button data-go="voyages"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span><b data-t="tabTrips"></b><small id="hm-trips"></small></button>
@@ -946,7 +966,7 @@ nav.tabs button.add{background:var(--accent);color:#1B120B;box-shadow:0 6px 16px
 (() => {
 /* ================= i18n ================= */
 const I18N = {
-fr:{app:'Registre',yH:'Simulation annuelle',yLede:'Projetez une année complète d’activité : volumes, prix, coûts et bénéfice net, mois par mois.',yPru:'Prudent',yReal:'Réaliste',yOpt:'Optimiste',yData:'Mes données',
+fr:{app:'Registre',yHzL:{1:'1 mois',3:'3 mois',6:'6 mois',12:'1 an',24:'2 ans',36:'3 ans'},yStart:'Début',yNetP:p=>`Bénéfice net · ${p}`,yTripsP:'voyages',yNeedP:(n,m)=>`${n} camions nécessaires pour tout livrer en ${m} mois`,yBEday:'voyages / jour nécessaires',yBEvs:v=>`voyages/jour minimum · prévu : ${v}`,yH:'Simulation',yLede:'Projetez votre activité sur la période choisie : volumes, prix, coûts et bénéfice net, mois par mois.',yPru:'Prudent',yReal:'Réaliste',yOpt:'Optimiste',yData:'Mes données',
  yNet:'Bénéfice net annuel',yMargin:'Marge nette',yRev:'Chiffre d’affaires',yTon:'Tonnes livrées',yTrips:'Voyages / an',yBE:'Seuil de rentabilité',yBEv:v=>`${v} voyages / jour`,yCov:'Couverture des contrats',yCovS:(a,b)=>`${a} sur ${b} t`,yCovM:m=>`contrats livrés en ~${m} mois`,yCovNo:'Aucun contrat',yNeed:n=>`${n} camions nécessaires pour tout livrer en 12 mois`,
  yChart:'Résultat mensuel',yCum:'Cumul',yPL:'Compte de résultat',yPLrev:'Chiffre d’affaires',yPLbuy:'Achat marchandise',yPLfret:'Fret transporteurs',yPLtoll:'Péages',yPLdelay:'Retards',yPLgross:'Marge brute',yPLfix:'Frais fixes',yPLnet:'Résultat net',yPLloss:'dont pertes en route',yPerT:'par tonne',yCostKm:'Coût / km',
  gVol:'Volume & flotte',gPrice:'Prix & mix produits',gVar:'Coûts variables',gFix:'Coûts fixes',
@@ -988,7 +1008,7 @@ fr:{app:'Registre',yH:'Simulation annuelle',yLede:'Projetez une année complète
  eyeRep:'Rapport mensuel',repH:'Rapport',repLede:'Résumé du mois par client et transporteur, à envoyer en PDF.',repMonth:'Mois',repByCl:'Par client',repByTr:'Par transporteur',repPdf:'Télécharger le PDF',repTitle:'Rapport de transport',repPeriod:'Période',repGen:'Généré le',repNoDl:'Téléchargement indisponible ici',repLoading:'Préparation du PDF…',repSaved:'PDF prêt',repFail:'PDF impossible — réessayez',
  csvH:['Client','Chauffeur','Téléphone','Transporteur','Immatriculation','Produit','Tonnage départ','Lieu départ','Heure départ','Lieu arrivée','Arrivée prévue','Arrivée réelle','Km','Tonnage déchargé','Prix achat/t','Fret/t','Péage routier','Péage minier','Coût retard','Prix vente/t','Motif','Coût total','Revenu','Marge','Coût/km','Perte (t)','À temps'],yes:'oui',no:'non',
  prods:{charbon:'Charbon',sable:'Sable',chips:'Gypse',terre:'Terre rouge'}},
-nl:{app:'Register',yH:'Jaarsimulatie',yLede:'Simuleer een volledig werkjaar: volumes, prijzen, kosten en nettowinst, maand per maand.',yPru:'Voorzichtig',yReal:'Realistisch',yOpt:'Optimistisch',yData:'Mijn data',
+nl:{app:'Register',yHzL:{1:'1 mnd',3:'3 mnd',6:'6 mnd',12:'1 jaar',24:'2 jaar',36:'3 jaar'},yStart:'Start',yNetP:p=>`Nettowinst · ${p}`,yTripsP:'ritten',yNeedP:(n,m)=>`${n} vrachtwagens nodig om alles in ${m} maanden te leveren`,yBEday:'ritten / dag nodig',yBEvs:v=>`ritten/dag minimum · gepland: ${v}`,yH:'Simulatie',yLede:'Simuleer je activiteit over de gekozen periode: volumes, prijzen, kosten en nettowinst, maand per maand.',yPru:'Voorzichtig',yReal:'Realistisch',yOpt:'Optimistisch',yData:'Mijn data',
  yNet:'Jaarlijkse nettowinst',yMargin:'Nettomarge',yRev:'Omzet',yTon:'Geleverde ton',yTrips:'Ritten / jaar',yBE:'Break-even',yBEv:v=>`${v} ritten / dag`,yCov:'Dekking contracten',yCovS:(a,b)=>`${a} van ${b} t`,yCovM:m=>`contracten geleverd in ~${m} maanden`,yCovNo:'Geen contracten',yNeed:n=>`${n} vrachtwagens nodig om alles in 12 maanden te leveren`,
  yChart:'Resultaat per maand',yCum:'Cumulatief',yPL:'Resultatenrekening',yPLrev:'Omzet',yPLbuy:'Aankoop goederen',yPLfret:'Vracht transporteurs',yPLtoll:'Tol',yPLdelay:'Vertragingen',yPLgross:'Brutomarge',yPLfix:'Vaste kosten',yPLnet:'Nettoresultaat',yPLloss:'waarvan verlies onderweg',yPerT:'per ton',yCostKm:'Kost / km',
  gVol:'Volume & vloot',gPrice:'Prijzen & productmix',gVar:'Variabele kosten',gFix:'Vaste kosten',
@@ -1030,7 +1050,7 @@ nl:{app:'Register',yH:'Jaarsimulatie',yLede:'Simuleer een volledig werkjaar: vol
  eyeRep:'Maandrapport',repH:'Rapport',repLede:'Samenvatting van de maand per klant en transporteur, te versturen als PDF.',repMonth:'Maand',repByCl:'Per klant',repByTr:'Per transporteur',repPdf:'PDF downloaden',repTitle:'Transportrapport',repPeriod:'Periode',repGen:'Gemaakt op',repNoDl:'Downloaden hier niet beschikbaar',repLoading:'PDF voorbereiden…',repSaved:'PDF klaar',repFail:'PDF mislukt — probeer opnieuw',
  csvH:['Klant','Chauffeur','Telefoon','Transporteur','Nummerplaat','Product','Tonnage vertrek','Vertrekplaats','Vertrekuur','Aankomstplaats','Geplande aankomst','Echte aankomst','Km','Gelost tonnage','Aankoopprijs/t','Vracht/t','Wegtol','Mijntol','Kost vertraging','Verkoopprijs/t','Reden','Totale kost','Omzet','Marge','Kost/km','Verlies (t)','Op tijd'],yes:'ja',no:'nee',
  prods:{charbon:'Steenkool',sable:'Zand',chips:'Gips',terre:'Rode aarde'}},
-en:{app:'Registry',yH:'Annual simulation',yLede:'Project a full working year: volumes, prices, costs and net profit, month by month.',yPru:'Cautious',yReal:'Realistic',yOpt:'Optimistic',yData:'My data',
+en:{app:'Registry',yHzL:{1:'1 mo',3:'3 mo',6:'6 mo',12:'1 yr',24:'2 yrs',36:'3 yrs'},yStart:'Start',yNetP:p=>`Net profit · ${p}`,yTripsP:'trips',yNeedP:(n,m)=>`${n} trucks needed to deliver everything in ${m} months`,yBEday:'trips / day needed',yBEvs:v=>`trips/day minimum · planned: ${v}`,yH:'Simulation',yLede:'Project your business over the chosen period: volumes, prices, costs and net profit, month by month.',yPru:'Cautious',yReal:'Realistic',yOpt:'Optimistic',yData:'My data',
  yNet:'Annual net profit',yMargin:'Net margin',yRev:'Revenue',yTon:'Tonnes delivered',yTrips:'Trips / year',yBE:'Break-even',yBEv:v=>`${v} trips / day`,yCov:'Contract coverage',yCovS:(a,b)=>`${a} of ${b} t`,yCovM:m=>`contracts delivered in ~${m} months`,yCovNo:'No contracts',yNeed:n=>`${n} trucks needed to deliver everything in 12 months`,
  yChart:'Monthly result',yCum:'Cumulative',yPL:'Profit & loss',yPLrev:'Revenue',yPLbuy:'Goods purchase',yPLfret:'Carrier freight',yPLtoll:'Tolls',yPLdelay:'Delays',yPLgross:'Gross margin',yPLfix:'Fixed costs',yPLnet:'Net result',yPLloss:'of which loss in transit',yPerT:'per tonne',yCostKm:'Cost / km',
  gVol:'Volume & fleet',gPrice:'Prices & product mix',gVar:'Variable costs',gFix:'Fixed costs',
@@ -1556,13 +1576,14 @@ $('#lang').addEventListener('click', e => { const b = e.target.closest('[data-l]
 const YDEF = {days:300, trucks:10, tpt:1, load:30, km:150, rain:25, fret:4, toll:150, delay:10, loss:1.5, fix:15000,
   mix:{charbon:40, sable:25, chips:20, terre:15}, buy:{charbon:45, sable:8, chips:15, terre:6}, sell:{charbon:70, sable:14, chips:24, terre:11}};
 let Y = null, yPreset = 'real';
+const yDefaults = y => { if (!y.hz) y.hz = 12; if (!y.start) y.start = new Date().toISOString().slice(0,7); return y; };
 function yBase(){
   const base = JSON.parse(JSON.stringify(YDEF));
   PRODS.forEach(p => { if (n(config.achat?.[p.k])) base.buy[p.k] = n(config.achat[p.k]); if (n(config.marche?.[p.k])) base.sell[p.k] = n(config.marche[p.k]); });
   const tr = Object.values(config.tarifs||{}).map(n).filter(Boolean); if (tr.length) base.fret = +(tr.reduce((a,b)=>a+b,0)/tr.length).toFixed(2);
   return base;
 }
-function yInit(){ if (Y) return; Y = config.simY ? {...yBase(), ...JSON.parse(JSON.stringify(config.simY))} : yBase(); yPreset = config.simY?.preset || 'real'; }
+function yInit(){ if (Y) return; Y = yDefaults(config.simY ? {...yBase(), ...JSON.parse(JSON.stringify(config.simY))} : yBase()); yPreset = config.simY?.preset || 'real'; }
 function yFromData(){
   const b = yBase(), rv = real(), arr = rv.filter(v=>v.hArr);
   if (!rv.length) return b;
@@ -1582,19 +1603,22 @@ function yPresetApply(k){
   const b = k==='data' ? yFromData() : yBase();
   if (k==='prudent') { b.trucks = Math.max(1, Math.round(b.trucks*0.8)); PRODS.forEach(p=>b.sell[p.k]=+(b.sell[p.k]*0.92).toFixed(2)); b.rain = 35; b.loss = 2.5; b.fix = Math.round(b.fix*1.1); }
   if (k==='opti') { b.trucks = Math.round(b.trucks*1.2); PRODS.forEach(p=>b.sell[p.k]=+(b.sell[p.k]*1.06).toFixed(2)); b.rain = 15; b.loss = 1; }
-  Y = b; yPreset = k; renderYear(true);
+  b.hz = Y?.hz || 12; b.start = Y?.start || new Date().toISOString().slice(0,7); Y = yDefaults(b); yPreset = k; renderYear(true);
 }
 function yCompute(y){
   const mixT = PRODS.reduce((a,p)=>a+n(y.mix[p.k]),0) || 1, mix = Object.fromEntries(PRODS.map(p=>[p.k, n(y.mix[p.k])/mixT]));
   const avgBuy = PRODS.reduce((a,p)=>a+mix[p.k]*n(y.buy[p.k]),0), avgSell = PRODS.reduce((a,p)=>a+mix[p.k]*n(y.sell[p.k]),0);
   const loss = n(y.loss)/100, dpm = n(y.days)/12, months = [];
-  for (let m=0; m<12; m++) {
+  const N = [1,3,6,12,24,36].includes(+y.hz) ? +y.hz : 12;
+  const [sy, sm] = (y.start || new Date().toISOString().slice(0,7)).split('-').map(Number);
+  for (let i=0; i<N; i++) {
+    const d = new Date(sy, sm-1+i, 1), m = d.getMonth(), yr = d.getFullYear();
     const rainy = [10,11,0,1,2].includes(m);
     const trips = n(y.trucks)*n(y.tpt)*dpm*(rainy ? 1-n(y.rain)/100 : 1);
     const loaded = trips*n(y.load), deliv = loaded*(1-loss);
     const rev = deliv*avgSell, buy = loaded*avgBuy, fret = loaded*n(y.fret), toll = trips*n(y.toll), delay = trips*n(y.delay), fix = n(y.fix);
     const gross = rev-buy-fret-toll-delay;
-    months.push({m, rainy, trips, loaded, deliv, rev, buy, fret, toll, delay, fix, gross, net: gross-fix, lossVal: loaded*loss*avgSell});
+    months.push({m, yr, rainy, trips, loaded, deliv, rev, buy, fret, toll, delay, fix, gross, net: gross-fix, lossVal: loaded*loss*avgSell});
   }
   const S = k => months.reduce((a,x)=>a+x[k],0);
   const T = {trips:S('trips'), loaded:S('loaded'), deliv:S('deliv'), rev:S('rev'), buy:S('buy'), fret:S('fret'), toll:S('toll'), delay:S('delay'), fix:S('fix'), gross:S('gross'), net:S('net'), lossVal:S('lossVal')};
@@ -1602,9 +1626,9 @@ function yCompute(y){
   const contrib = n(y.load)*(1-loss)*avgSell - n(y.load)*avgBuy - n(y.load)*n(y.fret) - n(y.toll) - n(y.delay);
   T.beTrips = contrib > 0 ? (n(y.fix)*12/n(y.days))/contrib : Infinity;
   T.contract = clients.reduce((a,c)=>a+n(c.obj),0);
-  T.covMonths = T.contract && T.deliv ? T.contract/(T.deliv/12) : NaN;
+  T.N = N; T.covMonths = T.contract && T.deliv ? T.contract/(T.deliv/N) : NaN;
   const perTruckYear = n(y.tpt)*n(y.load)*(1-loss)*n(y.days)*(1 - n(y.rain)/100*5/12);
-  T.needTrucks = T.contract && perTruckYear ? Math.ceil(T.contract/perTruckYear) : NaN;
+  T.needTrucks = T.contract && perTruckYear ? Math.ceil(T.contract/(perTruckYear*N/12)) : NaN;
   T.mixT = mixT;
   return {months, T, avgSell, avgBuy};
 }
@@ -1612,6 +1636,9 @@ const yF = (key, lab, step='1', hint='') => `<label class="f"><span>${lab}</span
 function renderYear(full){
   yInit();
   document.querySelectorAll('#y-pre [data-pre]').forEach(b => b.classList.toggle('on', b.dataset.pre===yPreset));
+  const HZ = I18N[lang].yHzL || I18N.fr.yHzL;
+  document.querySelectorAll('#y-hz [data-hz]').forEach(b => { b.textContent = HZ[b.dataset.hz]; b.classList.toggle('on', +b.dataset.hz === +Y.hz); b.setAttribute('aria-pressed', +b.dataset.hz === +Y.hz); });
+  if (document.activeElement?.id !== 'y-start') $('#y-start').value = Y.start;
   if (full || !$('#y-in').innerHTML) {
     $('#y-in').innerHTML = `
       <details class="acc" open><summary><span class="acc-t"><b>${t('gVol')}</b></span><span class="acc-ch"></span></summary><div class="acc-b"><div class="ygrid">
@@ -1636,36 +1663,43 @@ function renderYear(full){
   const {months, T} = yCompute(Y);
   $('#y-mixw').textContent = Math.round(T.mixT) !== 100 ? t('yMixWarn', fmt(T.mixT,0)) : '';
   const pos = T.net >= 0, cov = T.contract ? Math.min(1, T.deliv/T.contract) : 0;
-  const mlab = i => new Date(2026, i, 1).toLocaleDateString(L(), {month:'short'}).replace('.','');
+  const HZL = (I18N[lang].yHzL || I18N.fr.yHzL)[T.N];
+  const mname = x => new Date(x.yr, x.m, 1).toLocaleDateString(L(), {month:'short'}).replace('.','');
+  const multiYear = months.some(x => x.yr !== months[0].yr);
+  // group by quarter when horizon > 12 months
+  const groups = [];
+  if (T.N > 12) { for (let i=0; i<months.length; i+=3) { const g = months.slice(i,i+3); groups.push({net:g.reduce((a,x)=>a+x.net,0), rainy:g.filter(x=>x.rainy).length>=2, lab:`T${Math.floor(g[0].m/3)+1} '${String(g[0].yr).slice(2)}`, tip:`${mname(g[0])}–${mname(g[g.length-1])} ${g[g.length-1].yr}`}); } }
+  else months.forEach(x => groups.push({net:x.net, rainy:x.rainy, lab: mname(x).slice(0,3) + (multiYear && x.m===0 ? ` '${String(x.yr).slice(2)}` : ''), tip:`${mname(x)} ${x.yr}`}));
+  const G = groups.length, mlabG = i => groups[i].lab;
   // chart
-  const W = 520, H = 230, PL = 8, PR = 8, PT = 14, PB = 26, bw = (W-PL-PR)/12, ch = H-PT-PB;
-  const lo = Math.min(0, ...months.map(x=>x.net)), hi = Math.max(1, ...months.map(x=>x.net));
+  const W = 520, H = 230, PL = 8, PR = 8, PT = 14, PB = 26, bw = (W-PL-PR)/G, ch = H-PT-PB;
+  const lo = Math.min(0, ...groups.map(x=>x.net)), hi = Math.max(1, ...groups.map(x=>x.net));
   const ys = v => PT + (hi - v) / (hi - lo) * ch, zero = ys(0);
-  let cum = 0; const cums = months.map(x => cum += x.net);
+  let cum = 0; const cums = groups.map(x => cum += x.net);
   const cLo = Math.min(0, ...cums), cHi = Math.max(1, ...cums), yc = v => PT + (cHi - v) / (cHi - cLo) * ch;
-  const bars = months.map((x,i) => { const y1 = ys(Math.max(0,x.net)), y2 = ys(Math.min(0,x.net));
-    return `<rect x="${(PL+i*bw+bw*0.2).toFixed(1)}" y="${y1.toFixed(1)}" width="${(bw*0.6).toFixed(1)}" height="${Math.max(1.5,y2-y1).toFixed(1)}" rx="3" fill="${x.net>=0?'var(--brand)':'var(--bad)'}" opacity="${x.rainy?0.55:0.95}"><title>${mlab(i)} · ${money(x.net)}</title></rect>
-      <text x="${(PL+i*bw+bw/2).toFixed(1)}" y="${H-8}" text-anchor="middle" class="ax">${mlab(i).slice(0,3)}</text>`; }).join('');
+  const bars = groups.map((x,i) => { const y1 = ys(Math.max(0,x.net)), y2 = ys(Math.min(0,x.net));
+    return `<rect x="${(PL+i*bw+bw*0.2).toFixed(1)}" y="${y1.toFixed(1)}" width="${(bw*0.6).toFixed(1)}" height="${Math.max(1.5,y2-y1).toFixed(1)}" rx="3" fill="${x.net>=0?'var(--brand)':'var(--bad)'}" opacity="${x.rainy?0.55:0.95}"><title>${esc(x.tip)} · ${money(x.net)}</title></rect>
+      ${G <= 12 || i % 2 === 0 ? `<text x="${(PL+i*bw+bw/2).toFixed(1)}" y="${H-8}" text-anchor="middle" class="ax">${esc(mlabG(i))}</text>` : ''}`; }).join('');
   const line = cums.map((c,i)=>`${i?'L':'M'}${(PL+i*bw+bw/2).toFixed(1)},${yc(c).toFixed(1)}`).join(' ');
   const svg = `<svg viewBox="0 0 ${W} ${H}" class="ychart" role="img" aria-label="${esc(t('yChart'))}">
     <line x1="${PL}" x2="${W-PR}" y1="${zero.toFixed(1)}" y2="${zero.toFixed(1)}" class="zl"/>${bars}
     <path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
     ${cums.map((c,i)=>`<circle cx="${(PL+i*bw+bw/2).toFixed(1)}" cy="${yc(c).toFixed(1)}" r="3" fill="var(--accent)"/>`).join('')}
-    <text x="${W-PR}" y="${(yc(cums[11])-8).toFixed(1)}" text-anchor="end" class="cv">${money(cums[11])}</text></svg>`;
+    <text x="${W-PR}" y="${Math.max(12, yc(cums[G-1])-8).toFixed(1)}" text-anchor="end" class="cv">${money(cums[G-1])}</text></svg>`;
   const pl = (lab, v, cls='', sub='') => `<tr class="${cls}"><td>${lab}${sub?`<small>${sub}</small>`:''}</td><td class="r num">${money(v)}</td><td class="r num">${T.deliv?money(v/T.deliv,2):'—'}</td></tr>`;
   $('#y-res').innerHTML = `
     <div class="card yhero ${pos?'':'neg'}">
-      <div class="eyebrow">${t('yNet')}</div>
+      <div class="eyebrow">${t('yNetP', HZL)}</div>
       <div class="yv num">${money(T.net)}</div>
       <div class="ysub"><span>${t('yMargin')} <b class="num">${pct1(T.margin)}</b></span><span>${t('yRev')} <b class="num">${money(T.rev)}</b></span></div>
     </div>
     <div class="ykpis">
-      <div class="card kpi"><div class="eyebrow">${t('yTon')}</div><div class="v num">${fmt(T.deliv,0)} t</div><div class="s">${fmt(T.trips,0)} ${t('yTrips').toLowerCase()}</div></div>
-      <div class="card kpi"><div class="eyebrow">${t('yBE')}</div><div class="v num">${isFinite(T.beTrips)?fmt(T.beTrips,1):'∞'}</div><div class="s">${t('yBEv', fmt(n(Y.trucks)*n(Y.tpt),1))}</div></div>
+      <div class="card kpi"><div class="eyebrow">${t('yTon')}</div><div class="v num">${fmt(T.deliv,0)} t</div><div class="s">${fmt(T.trips,0)} ${t('yTripsP')} · ${HZL}</div></div>
+      <div class="card kpi"><div class="eyebrow">${t('yBE')}</div><div class="v num">${isFinite(T.beTrips)?fmt(T.beTrips,1):'∞'}</div><div class="s">${t('yBEvs', fmt(n(Y.trucks)*n(Y.tpt),1))}</div></div>
       <div class="card kpi"><div class="eyebrow">${t('yCostKm')}</div><div class="v num">${money(T.costKm,2)}</div><div class="s">${fmt(T.km,0)} km</div></div>
       <div class="card kpi"><div class="eyebrow">${t('yCov')}</div><div class="v num">${T.contract?pct(cov):'—'}</div><div class="s">${T.contract?t('yCovS', fmt(T.deliv,0), fmt(T.contract,0)):t('yCovNo')}</div><div class="bar" style="margin-top:8px"><b style="width:${cov*100}%;background:var(--brand-2)"></b></div></div>
     </div>
-    ${T.contract ? `<p class="ynote">${isFinite(T.covMonths)?t('yCovM', fmt(T.covMonths,1))+' · ':''}${isFinite(T.needTrucks)?t('yNeed', T.needTrucks):''}</p>` : ''}
+    ${T.contract ? `<p class="ynote">${isFinite(T.covMonths)?t('yCovM', fmt(T.covMonths,1))+' · ':''}${isFinite(T.needTrucks)?t('yNeedP', T.needTrucks, T.N):''}</p>` : ''}
     <div class="card ycard"><div class="sec-h"><h2>${t('yChart')}</h2><p><i class="lg b"></i>${t('yPLnet')} <i class="lg c"></i>${t('yCum')}</p></div>${svg}</div>
     <div class="card ycard"><div class="sec-h"><h2>${t('yPL')}</h2><p>${t('yPerT')}</p></div>
       <table class="tbl ypl"><tbody>
@@ -1678,6 +1712,7 @@ function renderYear(full){
 let canWriteFlag = true;
 $('#v-simulation').addEventListener('input', e => {
   const d = e.target.dataset;
+  if (e.target.id === 'y-start') { if (e.target.value) { Y.start = e.target.value; renderYear(false); } return; }
   if (d.y) Y[d.y] = n(e.target.value);
   else if (d.ym) Y[d.ym][d.p] = n(e.target.value);
   else return;
@@ -1685,6 +1720,7 @@ $('#v-simulation').addEventListener('input', e => {
 });
 $('#v-simulation').addEventListener('click', async e => {
   const pr = e.target.closest('[data-pre]'); if (pr) { yPresetApply(pr.dataset.pre); return; }
+  const hz = e.target.closest('[data-hz]'); if (hz) { Y.hz = +hz.dataset.hz; renderYear(false); return; }
   if (e.target.id === 'y-save') { await saveConfig({...config, simY:{...JSON.parse(JSON.stringify(Y)), preset:yPreset}}); toast(t('tYSaved')); }
   if (e.target.id === 'y-apply') { await saveConfig({...config, marche:{...config.marche, ...Y.sell}}); sim = null; toast(t('tYApplied')); }
 });
@@ -1715,7 +1751,7 @@ function go(v){
   document.body.classList.toggle('driver', v==='chauffeur');
   document.querySelectorAll('.view').forEach(s => s.classList.toggle('active', s.id==='v-'+v));
   document.querySelectorAll('#tabs button[data-v]').forEach(b => b.classList.toggle('on', b.dataset.v===v));
-  $('#home-btn').classList.toggle('on', !['simulation'].includes(v));
+  
   if (location.hash !== '#'+v) history.replaceState(null,'','#'+v);
   window.scrollTo({top:0}); render();
 }
@@ -2073,7 +2109,7 @@ async function init(){
 }
 let h0 = location.hash.slice(1);
 if (LSget('registre-driver') === '1' && h0 !== 'tableau' && h0 !== 'prix') h0 = 'chauffeur';
-if (VIEWS.includes(h0) && h0 !== 'tableau') { state.view = h0; document.body.classList.toggle('driver', h0==='chauffeur'); document.querySelectorAll('.view').forEach(s => s.classList.toggle('active', s.id==='v-'+h0)); document.querySelectorAll('#tabs button[data-v]').forEach(b => b.classList.toggle('on', b.dataset.v===h0)); $('#home-btn').classList.toggle('on', h0!=='simulation'); }
+if (VIEWS.includes(h0) && h0 !== 'tableau') { state.view = h0; document.body.classList.toggle('driver', h0==='chauffeur'); document.querySelectorAll('.view').forEach(s => s.classList.toggle('active', s.id==='v-'+h0)); document.querySelectorAll('#tabs button[data-v]').forEach(b => b.classList.toggle('on', b.dataset.v===h0));  }
 init();
 })();
 </script>
