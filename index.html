@@ -52,7 +52,8 @@ nav.tabs button{border:0;background:none;color:#CFC8BC;display:flex;flex-directi
 nav.tabs button svg{width:20px;height:20px}
 nav.tabs button.on{background:rgba(255,255,255,.12);color:#fff}
 nav.tabs button.add{background:var(--accent);color:#fff}
-@media(min-width:760px){.col-route{order:2}#next{display:none}}
+@media(min-width:760px){.col-route{order:2}}
+@media(min-width:1024px){#next{display:none}}
 nav.tabs button:active{transform:scale(.96)}
 
 /* Cards / KPI */
@@ -724,6 +725,58 @@ nav.tabs.solo .badge{position:static;margin-left:2px}
 .tk-hint.ok{color:var(--ok)}.tk-hint.warn{color:var(--warn)}
 .rail .rb-w{background:var(--warn);color:#1B120B}
 @media(max-width:759px){.tk-bar{flex-direction:column;align-items:stretch}.tk-bar .btn{width:100%}}
+
+/* ---- v13: tablet (760–1023px) ---- */
+@media(min-width:760px) and (max-width:1023px){
+  main{padding:4px 28px 120px!important}
+  /* form = touch bottom-sheet with steps, centred */
+  .sheet{left:50%!important;right:auto!important;top:auto!important;bottom:0!important;width:min(720px,100%)!important;height:90vh;max-height:none!important;border-radius:24px 24px 0 0!important;
+    transform:translate(-50%,105%) scale(1)!important;opacity:1!important;pointer-events:auto!important;transition:transform .42s cubic-bezier(.2,.9,.25,1),visibility 0s .42s!important}
+  .sheet.on{transform:translate(-50%,0)!important;transition:transform .42s cubic-bezier(.2,.9,.25,1)!important}
+  .sheet:not(.on){visibility:hidden}
+  .grab{display:block!important;box-sizing:content-box;width:40px;padding:10px 60px;background-clip:content-box;margin:0 auto;cursor:grab}
+  .sheet-h{padding:4px 22px 8px;border-bottom:0}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:0 22px 6px;padding:4px;border-radius:12px}
+  .steps button{border:0;background:none;border-radius:9px;min-height:44px;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+  .steps button b{font:600 11px/1 var(--txt);width:20px;height:20px;border-radius:6px;display:grid;place-items:center}
+  .sheet-b{padding:6px 22px 22px}
+  fieldset{display:none;margin-top:10px}
+  fieldset.cur{display:block;animation:in .22s cubic-bezier(.2,.8,.2,1)}
+  legend{display:none}
+  .fg{grid-template-columns:repeat(2,1fr)}
+  .fg label:has(input[type=datetime-local]){grid-column:auto}
+  .sheet-f{padding:12px 22px max(14px,env(safe-area-inset-bottom))}
+  #next{display:inline-flex}
+  /* bigger touch targets */
+  .chip,.fsel{min-height:42px}
+  .segc button{min-height:42px}
+  nav.tabs.solo #home-btn{min-height:56px;min-width:170px;font-size:15px}
+  .hmenu{width:min(480px,calc(100vw - 48px))}
+  .hgrid button{min-height:76px}
+  /* layouts */
+  .kpis{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .clgrid{grid-template-columns:repeat(2,1fr)}
+  .mcards.mob{display:grid;grid-template-columns:repeat(2,1fr)}
+  .desk{display:none!important}
+  .prices{grid-template-columns:1fr 1fr}
+  .yhz{grid-template-columns:1fr 190px}
+  .ygrid{grid-template-columns:repeat(2,1fr)}
+  .ykpis{grid-template-columns:repeat(2,1fr)}
+  .tk-list{grid-template-columns:1fr}
+  .rep-sum{grid-template-columns:repeat(4,1fr)}
+}
+/* small laptops / tablet landscape with rail: give content room */
+@media(min-width:1024px) and (max-width:1279px){
+  main{padding-left:calc(232px + 28px)!important;padding-right:28px!important}
+  .ylay{grid-template-columns:1fr!important}
+  .yres{position:static!important}
+  .ygrid{grid-template-columns:repeat(3,1fr)}
+  .clgrid{grid-template-columns:repeat(3,1fr)}
+}
+
+/* fixes: select chevron + grab handle after background shorthands */
+label.f select{background-color:#121A19;background-image:linear-gradient(45deg,transparent 50%,var(--ink2) 50%),linear-gradient(135deg,var(--ink2) 50%,transparent 50%)!important;background-position:calc(100% - 18px) 52%,calc(100% - 13px) 52%!important;background-size:5px 5px,5px 5px!important;background-repeat:no-repeat!important;padding-right:34px}
+.grab{background-clip:content-box!important}
 </style>
 </head>
 <body>
@@ -1138,6 +1191,7 @@ const pn = k => I18N[lang].prods[k] || '—';
 const PC = Object.fromEntries(PRODS.map(p=>[p.k,p.c]));
 const $ = s => document.querySelector(s);
 const isMob = () => matchMedia('(max-width:759px)').matches;
+const isSheetMode = () => matchMedia('(max-width:1023px)').matches;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const n = v => { const x = parseFloat(v); return isFinite(x) ? x : 0; };
 const DAY = 864e5;
@@ -2008,7 +2062,7 @@ function openSheet(v, startStep){
   showStep(startStep || 1);
   $('#sheet').style.transform='';
   $('#scrim').classList.add('on'); $('#sheet').classList.add('on'); document.body.style.overflow='hidden';
-  setTimeout(()=>{ if(!v && !isMob()) form.chauffeur.focus({preventScroll:true}); }, 350);
+  setTimeout(()=>{ if(!v && !isSheetMode()) form.chauffeur.focus({preventScroll:true}); }, 350);
 }
 function closeSheet(){ $('#scrim').classList.remove('on'); $('#sheet').classList.remove('on'); document.body.style.overflow=''; editing=null; formPhotos = {}; }
 function formData(){ const o = {prod:prodSel}; for (const el of form.elements) if (el.name) o[el.name] = el.type==='checkbox' ? el.checked : el.name==='plaque' ? el.value.trim().toUpperCase() : el.value.trim(); return o; }
@@ -2064,8 +2118,8 @@ $('#del').onclick = async () => {
 };
 (() => { // swipe down to close (mobile)
   const sh = $('#sheet'); let y0=null, dy=0, last=[];
-  const start = e => { if(!isMob()) return; y0=e.clientY; dy=0; last=[[performance.now(),y0]]; sh.style.transition='none'; e.currentTarget.setPointerCapture?.(e.pointerId); };
-  const move = e => { if(y0===null) return; const d=e.clientY-y0; dy = d>0 ? d : -(Math.abs(d)*0.55*80)/(80+0.55*Math.abs(d)); sh.style.transform=`translateY(${dy}px)`; last.push([performance.now(),e.clientY]); if(last.length>5) last.shift(); };
+  const start = e => { if(!isSheetMode()) return; y0=e.clientY; dy=0; last=[[performance.now(),y0]]; sh.style.transition='none'; e.currentTarget.setPointerCapture?.(e.pointerId); };
+  const move = e => { if(y0===null) return; const d=e.clientY-y0; dy = d>0 ? d : -(Math.abs(d)*0.55*80)/(80+0.55*Math.abs(d)); sh.style.transform=(isMob()?'':'translateX(-50%) ')+`translateY(${dy}px)`; last.push([performance.now(),e.clientY]); if(last.length>5) last.shift(); };
   const end = () => { if(y0===null) return; const [ta,ya]=last[0], [tb,yb]=last[last.length-1]; const vel=(yb-ya)/Math.max(1,tb-ta)*1000;
     const proj = dy + (vel/1000)*0.998/(1-0.998)*0.15; sh.style.transition=''; y0=null; sh.style.transform='';
     if (proj > sh.offsetHeight*0.3) closeSheet(); };
